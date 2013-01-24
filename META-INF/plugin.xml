@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>be.mavicon.intellij.ppimport</id>
   <name>PPImport</name>
-  <version>1.0</version>
+  <version>0.1</version>
   <vendor email="marc@mavicon.be" url="http://www.mavicon.be">Mavicon</vendor>
 
   <description><![CDATA[
