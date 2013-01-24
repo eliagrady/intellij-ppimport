@@ -59,7 +59,7 @@ class PPImporter {
                 if (jarFile != null) {
                     InputStream dataIS = new ByteArrayInputStream(jarFile);
                     String contentType = "application/octet-stream";
-                    postDataAsynchronous("jar-file", dataIS, contentType, buildURL(target));
+                    postDataAsynchronous("jar-file", dataIS, contentType, buildURL(target,"&type=jar"));
                 }
             } else {
                 for (VirtualFile virtualFile : virtualFiles) {
@@ -192,11 +192,18 @@ class PPImporter {
     }
 
     private String buildURL(Target target) {
+        return this.buildURL(target, null);
+    }
+
+    private String buildURL(Target target, String extraParams) {
         StringBuilder url = new StringBuilder();
         url.append(target.getUrl());
         url.append("?result=true");
         url.append("&username=").append(target.getUser());
         url.append("&password=").append(target.getPassword());
+        if (extraParams != null) {
+            url.append(extraParams);
+        }
         return url.toString();
     }
 }
