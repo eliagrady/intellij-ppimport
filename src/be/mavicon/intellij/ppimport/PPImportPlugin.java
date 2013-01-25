@@ -8,6 +8,7 @@ import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.components.*;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.util.xmlb.XmlSerializerUtil;
@@ -45,40 +46,42 @@ import java.util.List;
 	}
 )
 public class PPImportPlugin implements ProjectComponent, Configurable, PersistentStateComponent<PPConfiguration> {
-	public static final String PLUGIN_COMPONENT_NAME = "PPImportPlugin";
-	public static final String PLUGIN_DISPLAY_NAME = "Polopoly Import";
 
-	ConfigPanel configGUI = null;
-	PPConfiguration state = new PPConfiguration();
+	private static final Logger LOGGER = Logger.getInstance(PPImportPlugin.class);
+
+	private static final String PLUGIN_COMPONENT_NAME = "PPImportPlugin";
+	private static final String PLUGIN_DISPLAY_NAME = "Polopoly Import";
+
+	private ConfigPanel configGUI;
+	private PPConfiguration state;
 
 	@Override
 	public void initComponent() {
+		LOGGER.info(getDisplayName() + " Plugin loaded");
+	}
+
+	private void registerActions() {
 		ActionManager am = ActionManager.getInstance();
+
 		DefaultActionGroup group = (DefaultActionGroup) am.getAction("PPImportGroup");
 		group.removeAll();
 
-		List<AnAction> actions = new ArrayList<AnAction>();
-		if (state == null) {
-			state = new PPConfiguration();
-			state.init();
-		}
 		List<String> includeExtensions = getIncludeExtensions(state.getFileExtensions());
 		for (Target target : state.getTargets()) {
 			AnAction action = new PPImportAction(target, includeExtensions, state.packMultipleFilesInJar);
-			actions.add(action);
 			am.unregisterAction(target.getProfile());
 			am.registerAction(target.getProfile(), action);
 			group.add(action);
+			LOGGER.info("Registered action for " + target);
 		}
 	}
 
 	private List<String> getIncludeExtensions(String fileExtensions) {
-		return Arrays.asList(StringUtils.split(fileExtensions, ','));
+		return Arrays.asList(StringUtils.split(StringUtils.defaultString(fileExtensions), ','));
 	}
 
 	@Override
 	public void disposeComponent() {
-
 	}
 
 	@Nls
@@ -107,10 +110,11 @@ public class PPImportPlugin implements ProjectComponent, Configurable, Persisten
 
 	@Override
 	public void loadState(PPConfiguration storedState) {
-		if (storedState != null) {
-			XmlSerializerUtil.copyBean(storedState, state);
-		} else {
-			state = new PPConfiguration();
+		state = storedState;
+		LOGGER.info("State loaded");
+		registerActions();
+		if (configGUI != null) {
+			configGUI.setConfig(state);
 		}
 	}
 
@@ -126,25 +130,29 @@ public class PPImportPlugin implements ProjectComponent, Configurable, Persisten
 	@Override
 	public JComponent createComponent() {
 		if (configGUI == null) {
-			configGUI = new ConfigPanel(this.state);
+			configGUI = new ConfigPanel();
 		}
 		return configGUI.getRootPanel();
 	}
 
 	@Override
 	public boolean isModified() {
-		return !state.equals(configGUI.getConfig());
+		return !(state == null || configGUI == null || configGUI.getConfig() == null) && !state.equals(configGUI.getConfig());
 	}
 
 	@Override
 	public void apply() throws ConfigurationException {
-		state = configGUI.getConfig();
-		initComponent();
+		if (configGUI != null) {
+			state = configGUI.getConfig();
+			registerActions();
+		}
 	}
 
 	@Override
 	public void reset() {
-		configGUI.setConfig(this.state);
+		if (configGUI != null && state != null) {
+			configGUI.setConfig(state);
+		}
 	}
 
 	@Override

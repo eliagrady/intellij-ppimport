@@ -99,14 +99,33 @@ class PPImporter {
 		);
 	}
 
-	private byte[] makeJar(VirtualFile[] files, List<String> includeExtensions) throws IOException {
+	private byte[] makeJar(VirtualFile[] files, final List<String> includeExtensions) throws IOException {
 		JarOutputStream jarOS = null;
 		ByteArrayOutputStream byteOS = null;
 		try {
 			byteOS = new ByteArrayOutputStream();
 			jarOS = new JarOutputStream(byteOS);
 			for (VirtualFile file : files) {
-				addToJar(jarOS, file, includeExtensions);
+				final JarOutputStream finalJarOS = jarOS;
+				VfsUtil.iterateChildrenRecursively(
+					file,
+					new VirtualFileFilter() {
+						@Override
+						public boolean accept(VirtualFile virtualFile) {
+							return !virtualFile.isDirectory() && includeExtensions.contains(virtualFile.getExtension());
+						}
+					}, new ContentIterator() {
+						@Override
+						public boolean processFile(VirtualFile virtualFile) {
+							try {
+								addToJar(finalJarOS, virtualFile);
+							} catch (IOException e) {
+								PPImportPlugin.doNotify("Import failed with message:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
+							}
+							return true;
+						}
+					}
+				);
 			}
 			jarOS.flush();
 			return byteOS.toByteArray();
@@ -116,19 +135,10 @@ class PPImporter {
 		}
 	}
 
-	private void addToJar(JarOutputStream jarOS, VirtualFile file, List<String> includeExtensions) throws IOException {
-		if (jarOS != null && file != null) {
-			if (file.isDirectory()) {
-				VirtualFile[] children = file.getChildren();
-				for (VirtualFile child : children) {
-					addToJar(jarOS, child, includeExtensions);
-				}
-			} else if (includeExtensions.contains(file.getExtension())) {
-				ZipEntry entry = new ZipEntry(file.getCanonicalPath());
-				jarOS.putNextEntry(entry);
-				Files.copy(new File(file.getCanonicalPath()), jarOS);
-			}
-		}
+	private void addToJar(JarOutputStream jarOS, VirtualFile file) throws IOException {
+		ZipEntry entry = new ZipEntry(file.getCanonicalPath());
+		jarOS.putNextEntry(entry);
+		Files.copy(new File(file.getCanonicalPath()), jarOS);
 	}
 
 	private void postDataAsynchronous(final String name, final InputStream dataIS, final String contentType, final String url) {

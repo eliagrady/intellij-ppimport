@@ -22,7 +22,7 @@ import javax.swing.*;
 
 public class ConfirmDialog extends DialogWrapper {
 
-    String profile;
+    private final String profile;
     JPanel contentPane;
     private JLabel areYouSureLabel;
 
@@ -31,7 +31,7 @@ public class ConfirmDialog extends DialogWrapper {
         this.profile = profile;
         this.init();
         this.setModal(true);
-        this.setTitle("Confirm your action.");
+        this.setTitle("Confirm Your Action");
         this.setOKActionEnabled(true);
     }
 

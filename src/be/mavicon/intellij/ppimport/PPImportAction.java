@@ -23,7 +23,8 @@ import java.util.List;
  * specific language governing permissions and limitations under the License.
  */
 
-public class PPImportAction extends AnAction {
+@SuppressWarnings("ComponentNotRegistered")
+class PPImportAction extends AnAction {
 
 	private Target target = null;
 	private List<String> includeExtensions;

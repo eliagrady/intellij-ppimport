@@ -20,8 +20,8 @@ import java.util.List;
 
 public class PPConfiguration implements Cloneable {
 
-    List<Target> targets = new ArrayList<Target>();
-    String fileExtensions = "xml";
+    private List<Target> targets = new ArrayList<Target>();
+    private String fileExtensions = "xml";
     boolean packMultipleFilesInJar = false;
 
     void init() {
@@ -35,7 +35,7 @@ public class PPConfiguration implements Cloneable {
         return targets;
     }
 
-    public void setTargets(List<Target> targets) {
+    void setTargets(List<Target> targets) {
         this.targets = targets;
     }
 
@@ -81,6 +81,7 @@ public class PPConfiguration implements Cloneable {
 
     @Override
     public PPConfiguration clone() throws CloneNotSupportedException {
+				super.clone();
         PPConfiguration clone = new PPConfiguration();
         List<Target> cloneTargets = new ArrayList<Target>();
         clone.setTargets(cloneTargets);
