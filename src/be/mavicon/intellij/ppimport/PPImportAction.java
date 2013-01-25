@@ -26,7 +26,7 @@ import java.util.List;
 public class PPImportAction extends AnAction {
 
     private Target target = null;
-    private List<String> includeExtentions;
+    private List<String> includeExtensions;
     private boolean uploadMultipleFilesAsJar;
 
     public PPImportAction() {
@@ -35,7 +35,7 @@ public class PPImportAction extends AnAction {
     public PPImportAction(Target target, List<String> includeExtentions, boolean uploadMultipleFilesAsJar) {
         super(target.getProfile(), "Import content to " + target.getUrl(), null);
         this.target = target;
-        this.includeExtentions = includeExtentions;
+        this.includeExtensions = includeExtentions;
         this.uploadMultipleFilesAsJar = uploadMultipleFilesAsJar;
     }
 
@@ -62,7 +62,7 @@ public class PPImportAction extends AnAction {
                 }
 
             }
-            PPImporter.getInstance().doImport(virtualFiles, this.target, this.includeExtentions, this.uploadMultipleFilesAsJar);
+            PPImporter.getInstance().doImport(virtualFiles, this.target, this.includeExtensions, this.uploadMultipleFilesAsJar);
         }
     }
 
@@ -73,7 +73,7 @@ public class PPImportAction extends AnAction {
 
     private boolean isValidSelection(VirtualFile[] selection) {
         for (VirtualFile virtualFile : selection) {
-            if (virtualFile.isDirectory() || includeExtentions.contains(virtualFile.getExtension())) {
+            if (virtualFile.isDirectory() || includeExtensions.contains(virtualFile.getExtension())) {
                 return true;
             }
         }

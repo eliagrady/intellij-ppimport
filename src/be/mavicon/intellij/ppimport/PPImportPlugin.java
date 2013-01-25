@@ -59,7 +59,7 @@ public class PPImportPlugin implements ProjectComponent, Configurable, Persisten
             state = new PPConfiguration();
             state.init();
         }
-        List<String> includeExtentions = getIncludeExtentions(state.getFileExtentions());
+        List<String> includeExtentions = getIncludeExtentions(state.getFileExtensions());
         for (Target target : state.getTargets()) {
             AnAction action = new PPImportAction(target, includeExtentions,state.packMultipleFilesInJar);
             actions.add(action);
