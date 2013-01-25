@@ -25,58 +25,58 @@ import java.util.List;
 
 public class PPImportAction extends AnAction {
 
-    private Target target = null;
-    private List<String> includeExtensions;
-    private boolean uploadMultipleFilesAsJar;
+	private Target target = null;
+	private List<String> includeExtensions;
+	private boolean uploadMultipleFilesAsJar;
 
-    public PPImportAction() {
-    }
+	public PPImportAction() {
+	}
 
-    public PPImportAction(Target target, List<String> includeExtentions, boolean uploadMultipleFilesAsJar) {
-        super(target.getProfile(), "Import content to " + target.getUrl(), null);
-        this.target = target;
-        this.includeExtensions = includeExtentions;
-        this.uploadMultipleFilesAsJar = uploadMultipleFilesAsJar;
-    }
+	public PPImportAction(Target target, List<String> includeExtensions, boolean uploadMultipleFilesAsJar) {
+		super(target.getProfile(), "Import content to " + target.getUrl(), null);
+		this.target = target;
+		this.includeExtensions = includeExtensions;
+		this.uploadMultipleFilesAsJar = uploadMultipleFilesAsJar;
+	}
 
-    @Override
-    public void update(AnActionEvent event) {
-        super.update(event);
-        final DataContext dataContext = event.getDataContext();
-        VirtualFile[] files = getSelectedFiles(dataContext);
-        event.getPresentation().setEnabled(isValidSelection(files));
-    }
+	@Override
+	public void update(AnActionEvent event) {
+		super.update(event);
+		final DataContext dataContext = event.getDataContext();
+		VirtualFile[] files = getSelectedFiles(dataContext);
+		event.getPresentation().setEnabled(isValidSelection(files));
+	}
 
 
-    public void actionPerformed(AnActionEvent e) {
-        VirtualFile[] virtualFiles = e.getData(LangDataKeys.VIRTUAL_FILE_ARRAY);
-        if (isValidSelection(virtualFiles)) {
-           if (target.isConfirm()) {
-                ConfirmDialog confirmDialog = new ConfirmDialog(target.getProfile());
-                confirmDialog.show();
-                int exitCode = confirmDialog.getExitCode();
+	public void actionPerformed(AnActionEvent e) {
+		VirtualFile[] virtualFiles = e.getData(LangDataKeys.VIRTUAL_FILE_ARRAY);
+		if (isValidSelection(virtualFiles)) {
+			if (target.isConfirm()) {
+				ConfirmDialog confirmDialog = new ConfirmDialog(target.getProfile());
+				confirmDialog.show();
+				int exitCode = confirmDialog.getExitCode();
 
-                if (DialogWrapper.OK_EXIT_CODE != exitCode) {
-                    PPImportPlugin.doNotify("Import cancelled upon confirmation.", NotificationType.INFORMATION);
-                    return;
-                }
+				if (DialogWrapper.OK_EXIT_CODE != exitCode) {
+					PPImportPlugin.doNotify("Import cancelled upon confirmation.", NotificationType.INFORMATION);
+					return;
+				}
 
-            }
-            PPImporter.getInstance().doImport(virtualFiles, this.target, this.includeExtensions, this.uploadMultipleFilesAsJar);
-        }
-    }
+			}
+			new PPImporter().doImport(virtualFiles, this.target, this.includeExtensions, this.uploadMultipleFilesAsJar);
+		}
+	}
 
-    private VirtualFile[] getSelectedFiles(final DataContext dataCtx) {
-        final VirtualFile[] result = PlatformDataKeys.VIRTUAL_FILE_ARRAY.getData(dataCtx);
-        return result != null ? result : new VirtualFile[0];
-    }
+	private VirtualFile[] getSelectedFiles(final DataContext dataCtx) {
+		final VirtualFile[] result = PlatformDataKeys.VIRTUAL_FILE_ARRAY.getData(dataCtx);
+		return result != null ? result : new VirtualFile[0];
+	}
 
-    private boolean isValidSelection(VirtualFile[] selection) {
-        for (VirtualFile virtualFile : selection) {
-            if (virtualFile.isDirectory() || includeExtensions.contains(virtualFile.getExtension())) {
-                return true;
-            }
-        }
-        return false;
-    }
+	private boolean isValidSelection(VirtualFile[] selection) {
+		for (VirtualFile virtualFile : selection) {
+			if (virtualFile.isDirectory() || includeExtensions.contains(virtualFile.getExtension())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

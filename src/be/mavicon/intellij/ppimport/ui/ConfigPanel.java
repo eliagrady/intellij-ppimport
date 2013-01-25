@@ -42,7 +42,7 @@ public class ConfigPanel {
     private JButton removeButton;
     private JButton upButton;
     private JButton downButton;
-    private JTextField fileExtentions;
+    private JTextField fileExtensions;
     private JCheckBox packMultipleFilesInJarCheckBox;
     private int currentSelection = -1;
 
@@ -68,7 +68,7 @@ public class ConfigPanel {
         } catch (CloneNotSupportedException e) {
             this.config = new PPConfiguration();
         }
-        fileExtentions.setText(this.config.getFileExtensions());
+        fileExtensions.setText(this.config.getFileExtensions());
         packMultipleFilesInJarCheckBox.setSelected(this.config.isPackMultipleFilesInJar());
         if (this.config.getTargets() != null && this.config.getTargets().size() > 0) {
 
@@ -96,7 +96,7 @@ public class ConfigPanel {
             );
             this.config.getTargets().set(currentSelection, target);
         }
-        this.config.setFileExtensions(fileExtentions.getText());
+        this.config.setFileExtensions(fileExtensions.getText());
         this.config.setPackMultipleFilesInJar(packMultipleFilesInJarCheckBox.isSelected());
     }
 
@@ -126,7 +126,7 @@ public class ConfigPanel {
             password.setText("");
             importNeedsConfirmationCheckBox.setEnabled(false);
         }
-        fileExtentions.setText(this.config.getFileExtensions());
+        fileExtensions.setText(this.config.getFileExtensions());
         packMultipleFilesInJarCheckBox.setSelected(this.config.isPackMultipleFilesInJar());
     }
 
