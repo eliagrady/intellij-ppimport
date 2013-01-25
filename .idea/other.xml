@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PolopolyConfiguration">
+    <option name="version" value="1" />
+    <option name="systems">
+      <list>
+        <HostConfig>
+          <option name="url" value="http://local:8090/polopoly/import" />
+          <option name="username" value="sysadmin" />
+          <option name="password" value="password" />
+        </HostConfig>
+        <HostConfig>
+          <option name="url" value="http://test/polopoly/import" />
+          <option name="username" value="sysadmin" />
+          <option name="password" value="password" />
+        </HostConfig>
+        <HostConfig>
+          <option name="url" value="http://stage/polopoly/import" />
+          <option name="username" value="sysadmin" />
+          <option name="password" value="password" />
+        </HostConfig>
+        <HostConfig>
+          <option name="url" value="http://prod/polopoly/import" />
+          <option name="username" value="sysadmin" />
+          <option name="password" value="password" />
+        </HostConfig>
+      </list>
+    </option>
+  </component>
+</project>
+
