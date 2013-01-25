@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a7834f64-41ac-4c3c-9a97-487273b08ed9" name="Default" comment="Add some basic information (README)">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/distributable/intellij-ppimport.jar" afterPath="$PROJECT_DIR$/distributable/intellij-ppimport.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfigPanel.java" afterPath="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfigPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPConfiguration.java" afterPath="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPConfiguration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportAction.java" afterPath="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportPlugin.java" afterPath="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportPlugin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/META-INF/plugin.xml" />
+    <list default="true" id="a7834f64-41ac-4c3c-9a97-487273b08ed9" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="intellij-ppimport.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/PPImporter.java" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359035341807" ignored="false" />
-    <file path="/ConfigPanel.java" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1358980016234" ignored="false" />
+    <file path="/PPImporter.java" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359105820810" ignored="false" />
+    <file path="/ConfigPanel.java" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359106485516" ignored="false" />
     <file path="/Target.java" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1358980301441" ignored="false" />
-    <file path="/Dummy.txt" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359104005761" ignored="false" />
+    <file path="/Dummy.txt" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359106635584" ignored="false" />
     <file path="/fragment.java" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359035209914" ignored="false" />
     <file path="$USER_HOME$/Library/Preferences/IntelliJIdea12/options/notifications.xml" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359051441163" ignored="false" />
     <file path="$USER_HOME$/Library/Preferences/IntelliJIdea12/options/options.xml" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359051410212" ignored="false" />
     <file path="/README" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359051403613" ignored="false" />
     <file path="/PPConfiguration.java" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359103679709" ignored="false" />
-    <file path="/PPImportAction.java" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359103767159" ignored="false" />
+    <file path="/PPImportAction.java" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359106022854" ignored="false" />
+    <file path="/plugin.xml" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359106156561" ignored="false" />
+    <file path="/PPImportPlugin.java" changelist="a7834f64-41ac-4c3c-9a97-487273b08ed9" time="1359106375305" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="true" />
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
@@ -37,22 +32,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImporter.java" line="65" class="be.mavicon.intellij.ppimport.PPImporter" package="be.mavicon.intellij.ppimport">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -115,10 +95,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PPImportAction.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PPImportAction.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="2" selection-start="535" selection-end="535" vertical-scroll-proportion="0.45637584">
+            <state line="32" column="3" selection-start="1101" selection-end="1101" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -129,16 +109,54 @@
       <file leaf-file-name="PPImporter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImporter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="37" selection-start="2463" selection-end="2463" vertical-scroll-proportion="0.0">
+            <state line="114" column="38" selection-start="4352" selection-end="4352" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3290#3411#0" expanded="true" />
+                <element signature="e#3405#3406#0" expanded="true" />
+                <element signature="e#3413#3863#0" expanded="true" />
+                <element signature="e#3857#3858#0" expanded="true" />
+                <element signature="e#5056#5150#0" expanded="true" />
+                <element signature="e#5145#5146#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PPImportPlugin.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportPlugin.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="46" column="13" selection-start="1705" selection-end="1705" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2262#2272#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Target.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/Target.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="0" selection-start="68" selection-end="68" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plugin.xml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ConfirmDialog.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfirmDialog.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="13" selection-start="772" selection-end="772" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plugin.xml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="22" selection-start="509" selection-end="509" vertical-scroll-proportion="0.0">
+            <state line="36" column="9" selection-start="1186" selection-end="1186" vertical-scroll-proportion="1.0699301">
               <folding />
             </state>
           </provider>
@@ -147,10 +165,28 @@
       <file leaf-file-name="ConfigPanel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfigPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="19" selection-start="1334" selection-end="1341" vertical-scroll-proportion="0.0">
+            <state line="39" column="20" selection-start="1342" selection-end="1342" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConfigPanel.form" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfigPanel.form">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConfirmPanel.form" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfirmPanel.form">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -173,14 +209,14 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfigPanel.java" />
         <option value="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfirmDialog.java" />
-        <option value="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportPlugin.java" />
         <option value="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/Target.java" />
-        <option value="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImporter.java" />
         <option value="$PROJECT_DIR$/README" />
         <option value="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPConfiguration.java" />
+        <option value="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImporter.java" />
         <option value="$PROJECT_DIR$/META-INF/plugin.xml" />
+        <option value="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportPlugin.java" />
+        <option value="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfigPanel.java" />
         <option value="$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportAction.java" />
       </list>
     </option>
@@ -190,6 +226,43 @@
     <option name="y" value="24" />
     <option name="width" value="1855" />
     <option name="height" value="1056" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Code maturity issues</id>
+          </State>
+          <State>
+            <id>General</id>
+          </State>
+          <State>
+            <id>Java language level migration aids</id>
+          </State>
+          <State>
+            <id>Javadoc issues</id>
+          </State>
+          <State>
+            <id>Performance issues</id>
+          </State>
+          <State>
+            <id>Spring Model</id>
+          </State>
+          <State>
+            <id>Threading issues</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Abstraction issues</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -225,10 +298,6 @@
               <option name="myItemId" value="intellij-ppimport" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -255,42 +324,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="ppimport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="intellij-ppimport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="intellij-ppimport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ppimport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="intellij-ppimport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="intellij-ppimport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="distributable" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -345,13 +378,13 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="preferences.pluginManager" />
+    <property name="options.lastSelected" value="reference.projectsettings.compiler.javacompiler" />
     <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -519,24 +552,32 @@
       <created>1359051538020</created>
       <updated>1359051538020</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Some renames and removed the default usernames/passwords.">
+      <created>1359104490276</created>
+      <updated>1359104490276</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Some more renames, used Google Guava for proper closing and copying of streams, simplified some code">
+      <created>1359106639933</created>
+      <updated>1359106639933</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32939914" sideWeight="0.679026" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32939914" sideWeight="0.670725" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32939914" sideWeight="0.31710017" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32939914" sideWeight="0.32540122" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32939914" sideWeight="0.49584946" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32939914" sideWeight="0.48920864" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Analysis" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -544,6 +585,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21748754" sideWeight="0.67060083" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39914164" sideWeight="0.49584946" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32821077" sideWeight="0.49746192" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -551,7 +593,6 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="IntelliJad Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921347" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -592,7 +633,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="correction version (probably not release worthy yet ;)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some more renames, used Google Guava for proper closing and copying of streams, simplified some code" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -609,6 +650,8 @@
     <MESSAGE value="fix missing type=jar parameter when sending a jar to polopoly" />
     <MESSAGE value="Add some basic information (README)" />
     <MESSAGE value="correction version (probably not release worthy yet ;)" />
+    <MESSAGE value="Some renames and removed the default usernames/passwords." />
+    <MESSAGE value="Some more renames, used Google Guava for proper closing and copying of streams, simplified some code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -644,7 +687,15 @@
     <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImporter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="49" column="36" selection-start="1472" selection-end="1483" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3290#3411#0" expanded="true" />
+            <element signature="e#3405#3406#0" expanded="true" />
+            <element signature="e#3413#3863#0" expanded="true" />
+            <element signature="e#3857#3858#0" expanded="true" />
+            <element signature="e#5056#5150#0" expanded="true" />
+            <element signature="e#5145#5146#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -679,14 +730,25 @@
     <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImporter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="0" selection-start="1083" selection-end="1083" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3290#3411#0" expanded="true" />
+            <element signature="e#3405#3406#0" expanded="true" />
+            <element signature="e#3413#3863#0" expanded="true" />
+            <element signature="e#3857#3858#0" expanded="true" />
+            <element signature="e#5056#5150#0" expanded="true" />
+            <element signature="e#5145#5146#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="168" column="29" selection-start="4910" selection-end="4910" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2262#2272#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -702,21 +764,44 @@
         <state line="7" column="12" selection-start="203" selection-end="203" vertical-scroll-proportion="0.17786561" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfirmDialog.java">
+    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPConfiguration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="758" selection-end="758" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/Target.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="673" selection-end="761" vertical-scroll-proportion="0.02640845">
+        <state line="23" column="21" selection-start="821" selection-end="821" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportPlugin.java">
+    <entry file="jar://$USER_HOME$/Programs/idea/lib/velocity.jar!/org/apache/commons/lang/StringUtils.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="168" column="29" selection-start="4910" selection-end="4910" vertical-scroll-proportion="0.8415493">
+        <state line="125" column="16" selection-start="6154" selection-end="6154" vertical-scroll-proportion="1.8662093">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/Target.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="68" selection-end="68" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfigPanel.form">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfirmPanel.form">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfirmDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="13" selection-start="772" selection-end="772" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -728,42 +813,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPConfiguration.java">
+    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImporter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="21" selection-start="821" selection-end="821" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="114" column="38" selection-start="4352" selection-end="4352" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3290#3411#0" expanded="true" />
+            <element signature="e#3405#3406#0" expanded="true" />
+            <element signature="e#3413#3863#0" expanded="true" />
+            <element signature="e#3857#3858#0" expanded="true" />
+            <element signature="e#5056#5150#0" expanded="true" />
+            <element signature="e#5145#5146#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
+    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="22" selection-start="509" selection-end="509" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="46" column="13" selection-start="1705" selection-end="1705" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2262#2272#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/ui/ConfigPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="19" selection-start="1334" selection-end="1341" vertical-scroll-proportion="0.0">
+        <state line="39" column="20" selection-start="1342" selection-end="1342" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImporter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="37" selection-start="2463" selection-end="2463" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/be/mavicon/intellij/ppimport/PPImportAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="2" selection-start="535" selection-end="535" vertical-scroll-proportion="0.45637584">
+        <state line="32" column="3" selection-start="1101" selection-end="1101" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="9" selection-start="1186" selection-end="1186" vertical-scroll-proportion="1.0699301">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -824,7 +920,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
