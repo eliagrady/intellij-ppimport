@@ -68,7 +68,7 @@ public class ConfigPanel {
         } catch (CloneNotSupportedException e) {
             this.config = new PPConfiguration();
         }
-        fileExtentions.setText(this.config.getFileExtentions());
+        fileExtentions.setText(this.config.getFileExtensions());
         packMultipleFilesInJarCheckBox.setSelected(this.config.isPackMultipleFilesInJar());
         if (this.config.getTargets() != null && this.config.getTargets().size() > 0) {
 
@@ -96,7 +96,7 @@ public class ConfigPanel {
             );
             this.config.getTargets().set(currentSelection, target);
         }
-        this.config.setFileExtentions(fileExtentions.getText());
+        this.config.setFileExtensions(fileExtentions.getText());
         this.config.setPackMultipleFilesInJar(packMultipleFilesInJarCheckBox.isSelected());
     }
 
@@ -126,7 +126,7 @@ public class ConfigPanel {
             password.setText("");
             importNeedsConfirmationCheckBox.setEnabled(false);
         }
-        fileExtentions.setText(this.config.getFileExtentions());
+        fileExtentions.setText(this.config.getFileExtensions());
         packMultipleFilesInJarCheckBox.setSelected(this.config.isPackMultipleFilesInJar());
     }
 

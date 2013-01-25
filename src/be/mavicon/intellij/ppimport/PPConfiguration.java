@@ -21,17 +21,14 @@ import java.util.List;
 public class PPConfiguration implements Cloneable {
 
     List<Target> targets = new ArrayList<Target>();
-    String fileExtentions = "xml";
+    String fileExtensions = "xml";
     boolean packMultipleFilesInJar = false;
 
     void init() {
         if (targets.isEmpty()) {
-            targets.add(new Target("local", "http://pp.local:8080/polopoly/import", "sysadmin", "nimdasys",false));
-            targets.add(new Target("development", "http://pp.dev:8080/polopoly/import", "sysadmin", "sysadmin",false));
-            targets.add(new Target("staging", "http://pp.stag:8080/polopoly/import", "sysadmin", "sysadmin",true));
-            targets.add(new Target("production", "http://pp.prod:8080/polopoly/import", "sysadmin", "sysadmin",true));
+            targets.add(new Target("localhost", "http://localhost:8080/polopoly/import", "sysadmin", "password",false));
         }
-        fileExtentions = "xml";
+        fileExtensions = "xml";
     }
 
     public List<Target> getTargets() {
@@ -42,12 +39,12 @@ public class PPConfiguration implements Cloneable {
         this.targets = targets;
     }
 
-    public String getFileExtentions() {
-        return fileExtentions;
+    public String getFileExtensions() {
+        return fileExtensions;
     }
 
-    public void setFileExtentions(String fileExtentions) {
-        this.fileExtentions = fileExtentions;
+    public void setFileExtensions(String fileExtensions) {
+        this.fileExtensions = fileExtensions;
     }
 
     public boolean isPackMultipleFilesInJar() {
@@ -64,7 +61,7 @@ public class PPConfiguration implements Cloneable {
         if (theOther instanceof PPConfiguration) {
             boolean allEquals = true;
             PPConfiguration other = (PPConfiguration) theOther;
-            if(!this.getFileExtentions().equals(other.getFileExtentions())) {
+            if(!this.getFileExtensions().equals(other.getFileExtensions())) {
                 allEquals = false;
             }   else if (this.packMultipleFilesInJar != other.packMultipleFilesInJar) {
                 allEquals = false;
@@ -89,7 +86,7 @@ public class PPConfiguration implements Cloneable {
         clone.setTargets(cloneTargets);
         for (Target target : this.targets) {
             clone.getTargets().add(new Target(target.getProfile(), target.getUrl(),target.getUser(),target.getPassword(), target.isConfirm()));
-            clone.setFileExtentions(fileExtentions);
+            clone.setFileExtensions(fileExtensions);
             clone.setPackMultipleFilesInJar(packMultipleFilesInJar);
         }
         return clone;

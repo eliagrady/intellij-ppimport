@@ -1,38 +1,38 @@
 <idea-plugin version="2">
-  <id>be.mavicon.intellij.ppimport</id>
-  <name>PPImport</name>
-  <version>0.1</version>
-  <vendor email="marc@mavicon.be" url="http://www.mavicon.be">Mavicon</vendor>
+	<id>be.mavicon.intellij.ppimport</id>
+	<name>PPImport</name>
+	<version>0.1</version>
+	<vendor email="marc@mavicon.be" url="http://www.mavicon.be">Mavicon</vendor>
 
-  <description><![CDATA[
+	<description><![CDATA[
       Plugin to import content-xml to Polpoly, or any service that accepts put requests for that matter.
       ]]></description>
 
-  <change-notes><![CDATA[
-      ]]>
-  </change-notes>
+	<change-notes><![CDATA[
+		]]>
+	</change-notes>
 
-  <idea-version since-build="107.105"/>
+	<idea-version since-build="107.105"/>
 
-  <application-components>
-  </application-components>
+	<application-components>
+	</application-components>
 
-  <project-components>
-      <component>
-          <implementation-class>be.mavicon.intellij.ppimport.PPImportPlugin</implementation-class>
-      </component>
-  </project-components>
+	<project-components>
+		<component>
+			<implementation-class>be.mavicon.intellij.ppimport.PPImportPlugin</implementation-class>
+		</component>
+	</project-components>
 
-  <actions>
-      <group id="PPImportGroup" popup="true" text="PPImport" description="Import content">
-          <separator/>
-          <add-to-group group-id="ProjectViewPopupMenu" anchor="last" />
-          <add-to-group group-id="StructureViewPopupMenu" anchor="last"/>
-          <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-      </group>
-  </actions>
+	<actions>
+		<group id="PPImportGroup" popup="true" text="PPImport" description="Import content">
+			<separator/>
+			<add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+			<add-to-group group-id="StructureViewPopupMenu" anchor="last"/>
+			<add-to-group group-id="EditorPopupMenu" anchor="last"/>
+		</group>
+	</actions>
 
-  <extensions defaultExtensionNs="com.intellij">
-  </extensions>
+	<extensions defaultExtensionNs="com.intellij">
+	</extensions>
 
 </idea-plugin>
