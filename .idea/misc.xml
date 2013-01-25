@@ -25,8 +25,8 @@
     <option name="effort" value="default" />
     <option name="priority" value="Medium" />
   </component>
-  <component name="IdProvider" IDEtalkID="0056ABADCACFE8F46FD99924A485E5E5" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IU-123.123" project-jdk-type="IDEA JDK">
+  <component name="IdProvider" IDEtalkID="62EB521BED974C050EEDA4213F89588F" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IU-123.94" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="SuppressionsComponent">
