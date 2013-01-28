@@ -1,23 +1,24 @@
-<idea-plugin version="2" url="https://github.com/mavicon/intellij-ppimport">
+<idea-plugin version="2" url="https://github.com/wimsymons/intellij-ppimport">
 	<id>be.mavicon.intellij.ppimport</id>
 	<name>Polopoly Importer</name>
 	<version>0.2</version>
-	<vendor email="marc@mavicon.be" url="http://www.mavicon.be">Mavicon</vendor>
+	<vendor email="wim.symons@gmail.com">Wim Symons</vendor>
 
 	<description><![CDATA[
       Plugin to import content XML to Polopoly, or any service that accepts HTTP PUT requests for that matter.
+      This version keeps state on application-level, not on project level.
       ]]></description>
 
 	<idea-version since-build="107.105"/>
 
-	<project-components>
+	<application-components>
 		<component>
 			<implementation-class>be.mavicon.intellij.ppimport.PPImportPlugin</implementation-class>
 		</component>
-	</project-components>
+	</application-components>
 
 	<actions>
-		<group id="PPImportGroup" popup="true" text="Polopoly Import" description="Import content">
+		<group id="PolopolyImportPluginGroup" popup="true" text="Polopoly Import" description="Import content">
 			<add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
 			<add-to-group group-id="StructureViewPopupMenu" anchor="last"/>
 			<add-to-group group-id="EditorPopupMenu" anchor="last"/>

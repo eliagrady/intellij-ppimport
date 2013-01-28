@@ -1,5 +1,9 @@
 package be.mavicon.intellij.ppimport;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,80 +22,71 @@ import java.util.List;
  * specific language governing permissions and limitations under the License.
  */
 
-public class PPConfiguration implements Cloneable {
+public class PPConfiguration {
 
-    private List<Target> targets = new ArrayList<Target>();
-    private String fileExtensions = "xml";
-    boolean packMultipleFilesInJar = false;
+	public List<Target> targets = new ArrayList<Target>();
+	public String fileExtensions = "xml";
+	public boolean packMultipleFilesInJar = true;
 
-    void init() {
-        if (targets.isEmpty()) {
-            targets.add(new Target("localhost", "http://localhost:8080/polopoly/import", "sysadmin", "password",false));
-        }
-        fileExtensions = "xml";
-    }
+	public PPConfiguration() {
+	}
 
-    public List<Target> getTargets() {
-        return targets;
-    }
+	public PPConfiguration(PPConfiguration another) {
+		for (Target target : another.targets) {
+			targets.add(new Target(target));
+		}
+		fileExtensions = another.fileExtensions;
+		packMultipleFilesInJar = another.packMultipleFilesInJar;
+	}
 
-    void setTargets(List<Target> targets) {
-        this.targets = targets;
-    }
+	public void addDefaultTarget() {
+		targets.add(new Target("<new>", "http://<host>/polopoly/import", "sysadmin", "", false));
+	}
 
-    public String getFileExtensions() {
-        return fileExtensions;
-    }
+	public List<Target> getTargets() {
+		return targets;
+	}
 
-    public void setFileExtensions(String fileExtensions) {
-        this.fileExtensions = fileExtensions;
-    }
+	public String getFileExtensions() {
+		return fileExtensions;
+	}
 
-    public boolean isPackMultipleFilesInJar() {
-        return packMultipleFilesInJar;
-    }
+	public void setFileExtensions(String fileExtensions) {
+		this.fileExtensions = fileExtensions;
+	}
 
-    public void setPackMultipleFilesInJar(boolean packMultipleFilesInJar) {
-        this.packMultipleFilesInJar = packMultipleFilesInJar;
-    }
+	public boolean isPackMultipleFilesInJar() {
+		return packMultipleFilesInJar;
+	}
 
-    @Override
-    public boolean equals(Object theOther) {
-        boolean result = false;
-        if (theOther instanceof PPConfiguration) {
-            boolean allEquals = true;
-            PPConfiguration other = (PPConfiguration) theOther;
-            if(!this.getFileExtensions().equals(other.getFileExtensions())) {
-                allEquals = false;
-            }   else if (this.packMultipleFilesInJar != other.packMultipleFilesInJar) {
-                allEquals = false;
-            } else if (targets.size() == other.targets.size() ) {
-                for (int i = 0; i < targets.size(); i++) {
-                    if(!targets.get(i).equals(other.targets.get(i))) {
-                        allEquals = false;
-                    }
-                }
-            } else {
-                allEquals = false;
-            }
-            result = allEquals;
-        }
-        return result;
-    }
+	public void setPackMultipleFilesInJar(boolean packMultipleFilesInJar) {
+		this.packMultipleFilesInJar = packMultipleFilesInJar;
+	}
 
-    @Override
-    public PPConfiguration clone() throws CloneNotSupportedException {
-				super.clone();
-        PPConfiguration clone = new PPConfiguration();
-        List<Target> cloneTargets = new ArrayList<Target>();
-        clone.setTargets(cloneTargets);
-        for (Target target : this.targets) {
-            clone.getTargets().add(new Target(target.getProfile(), target.getUrl(),target.getUser(),target.getPassword(), target.isConfirm()));
-            clone.setFileExtensions(fileExtensions);
-            clone.setPackMultipleFilesInJar(packMultipleFilesInJar);
-        }
-        return clone;
-    }
+	@Override
+	public boolean equals(Object theOther) {
+		if (theOther == null) {
+			return false;
+		}
+		if (theOther == this) {
+			return true;
+		}
+		if (theOther.getClass() != getClass()) {
+			return false;
+		}
+		PPConfiguration rhs = (PPConfiguration) theOther;
+		return new EqualsBuilder()
+			.appendSuper(super.equals(theOther))
+			.append(targets, rhs.targets)
+			.append(fileExtensions, rhs.fileExtensions)
+			.append(packMultipleFilesInJar, rhs.packMultipleFilesInJar)
+			.isEquals();
+	}
 
-
+	@Override
+	public String toString() {
+		return new ToStringBuilder(ToStringStyle.SHORT_PREFIX_STYLE).append("fileExtensions", fileExtensions)
+			.append("packMultipleFilesInJar", packMultipleFilesInJar)
+			.append("targets", targets).toString();
+	}
 }

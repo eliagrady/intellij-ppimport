@@ -1,6 +1,7 @@
 package be.mavicon.intellij.ppimport;
 
-import java.io.Serializable;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /*
  * Copyright 2013 Marc Viaene (Mavicon BVBA)
@@ -20,82 +21,71 @@ import java.io.Serializable;
 /**
  * Target contains the basic data of a target place to where files can be sent.
  */
-public class Target implements Serializable {
+public class Target {
 
-    private String profile;
-    private String url;
-    private String user;
-    private String password;
-    private boolean confirm;
+	public String profile;
+	public String url;
+	public String user;
+	public String password;
+	public boolean confirm;
 
-    public Target() {
-    }
+	public Target() {
+		// empty default constructor for serialization
+	}
 
-    public Target(String profile, String url, String user, String password, boolean confirm) {
-        this.profile = profile;
-        this.url = url;
-        this.user = user;
-        this.password = password;
-        this.confirm = confirm;
-    }
+	public Target(String profile, String url, String user, String password, boolean confirm) {
+		this.profile = profile;
+		this.url = url;
+		this.user = user;
+		this.password = password;
+		this.confirm = confirm;
+	}
 
-    public String getProfile() {
-        return profile;
-    }
+	public Target(Target another) {
+		this.profile = another.profile;
+		this.url = another.url;
+		this.user = another.user;
+		this.password = another.password;
+		this.confirm = another.confirm;
+	}
 
-    public void setProfile(String profile) {
-        this.profile = profile;
-    }
+	public String getProfile() {
+		return profile;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	public String getUser() {
+		return user;
+	}
 
-    public String getUser() {
-        return user;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setUser(String user) {
-        this.user = user;
-    }
+	public boolean isConfirm() {
+		return confirm;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	@Override
+	public String toString() {
+		return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).toString();
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isConfirm() {
-        return confirm;
-    }
-
-    public void setConfirm(boolean confirm) {
-        this.confirm = confirm;
-    }
-
-    @Override
-    public String toString() {
-        return "Target[" + profile + "; " + url + "; " + user + "]";
-    }
-
-    @Override
-    public boolean equals(Object theOther) {
-        boolean result = false;
-        if (theOther instanceof Target) {
-            Target other = (Target) theOther;
-            result = this.profile.equals(other.profile) &&
-                    this.url.equals(other.url) &&
-                    this.user.equals(other.user) &&
-                    this.password.equals(other.password) &&
-                    this.isConfirm() == other.isConfirm();
-        }
-        return result;
-    }
+	@Override
+	public boolean equals(Object theOther) {
+		boolean result = false;
+		if (theOther instanceof Target) {
+			Target other = (Target) theOther;
+			result = this.profile.equals(other.profile) &&
+				this.url.equals(other.url) &&
+				this.user.equals(other.user) &&
+				this.password.equals(other.password) &&
+				this.confirm == other.confirm;
+		}
+		return result;
+	}
 
 }

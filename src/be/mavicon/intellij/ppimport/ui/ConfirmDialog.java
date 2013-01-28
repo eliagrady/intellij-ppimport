@@ -23,7 +23,7 @@ import javax.swing.*;
 public class ConfirmDialog extends DialogWrapper {
 
     private final String profile;
-    JPanel contentPane;
+    private JPanel contentPane;
     private JLabel areYouSureLabel;
 
     public ConfirmDialog(String profile) {
@@ -42,14 +42,4 @@ public class ConfirmDialog extends DialogWrapper {
         return contentPane;
     }
 
-
-    public void setData(ConfirmDialog data) {
-    }
-
-    public void getData(ConfirmDialog data) {
-    }
-
-    public boolean isModified(ConfirmDialog data) {
-        return false;
-    }
 }

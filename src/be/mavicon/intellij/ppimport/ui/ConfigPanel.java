@@ -49,6 +49,8 @@ public class ConfigPanel {
 	private static final String[] COLUMN_NAMES = {"profile", "url"};
 
 	public ConfigPanel() {
+		config = new PPConfiguration();
+
 		profileTable.setModel(new ProfileTableModel());
 		profileTable.getEmptyText().appendText("No profiles defined");
 		profileTable.getSelectionModel().addListSelectionListener(new ProfileTableSelectionListener());
@@ -58,20 +60,12 @@ public class ConfigPanel {
 		removeButton.addActionListener(new RemoveActionListener());
 		upButton.addActionListener(new UpActionListener());
 		downButton.addActionListener(new DownActionListener());
-		setConfig(null);
+		setActionStates();
 	}
 
 	public void setConfig(PPConfiguration aConfig) {
 		currentSelection = -1;
-		if (aConfig != null) {
-			try {
-				this.config = aConfig.clone();
-			} catch (CloneNotSupportedException e) {
-				// no config yet
-			}
-		} else {
-			this.config = new PPConfiguration();
-		}
+		this.config = new PPConfiguration(aConfig);
 		fileExtensions.setText(this.config.getFileExtensions());
 		packMultipleFilesInJarCheckBox.setSelected(this.config.isPackMultipleFilesInJar());
 		setActionStates();
@@ -156,7 +150,7 @@ public class ConfigPanel {
 	private class ProfileTableModel extends AbstractTableModel {
 		@Override
 		public int getRowCount() {
-			return config == null ? 0 : config.getTargets().size();
+			return config.getTargets().size();
 		}
 
 		@Override
@@ -181,14 +175,12 @@ public class ConfigPanel {
 
 		@Override
 		public Object getValueAt(int row, int column) {
-			if (config != null) {
-				Target target = config.getTargets().get(row);
-				if (target != null) {
-					if (column == 1) {
-						return target.getUrl();
-					} else {
-						return target.getProfile();
-					}
+			Target target = config.getTargets().get(row);
+			if (target != null) {
+				if (column == 1) {
+					return target.getUrl();
+				} else {
+					return target.getProfile();
 				}
 			}
 			return null;
@@ -199,8 +191,7 @@ public class ConfigPanel {
 	private class AddActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
-			Target newTarget = new Target("<new>", "url", "username", "password", true);
-			config.getTargets().add(newTarget);
+			config.addDefaultTarget();
 			int newIndex = config.getTargets().size() - 1;
 			setCurrentSelection(newIndex);
 			setTableSelection(newIndex);

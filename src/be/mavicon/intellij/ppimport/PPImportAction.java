@@ -74,7 +74,7 @@ class PPImportAction extends AnAction {
 
 	private boolean isValidSelection(VirtualFile[] selection) {
 		for (VirtualFile virtualFile : selection) {
-			if (virtualFile.isDirectory() || includeExtensions.contains(virtualFile.getExtension())) {
+			if (virtualFile.isDirectory() || virtualFile.isInLocalFileSystem() && includeExtensions.contains(virtualFile.getExtension())) {
 				return true;
 			}
 		}

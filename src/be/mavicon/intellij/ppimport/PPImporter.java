@@ -8,9 +8,11 @@ import com.intellij.openapi.roots.ContentIterator;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileFilter;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.jar.JarOutputStream;
@@ -45,7 +47,7 @@ class PPImporter {
 				if (jarFile != null) {
 					InputStream dataIS = new ByteArrayInputStream(jarFile);
 					String contentType = "application/octet-stream";
-					postDataAsynchronous("jar-file", dataIS, contentType, buildURL(target, "&type=jar"));
+					postDataAsynchronous("jar-file", dataIS, contentType, "&type=jar", target);
 				}
 			} else {
 				for (VirtualFile virtualFile : virtualFiles) {
@@ -57,21 +59,21 @@ class PPImporter {
 				}
 			}
 		} catch (IOException e) {
-			PPImportPlugin.doNotify("Import failed with message:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
+			PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
 		}
 	}
 
 	private void doImportSingleFile(boolean asynchronous, VirtualFile virtualFile, Target target, List<String> includeExtensions) throws IOException {
-		if (includeExtensions.contains(virtualFile.getExtension())) {
+		if (virtualFile.isInLocalFileSystem() && includeExtensions.contains(virtualFile.getExtension())) {
 			InputStream dataIS = new FileInputStream(virtualFile.getCanonicalPath());
-			String contentType = "text/" + virtualFile.getExtension() + ";charset=" + virtualFile.getCharset();
+			String contentType = "text/xml;charset=" + virtualFile.getCharset();
 			if (asynchronous) {
-				postDataAsynchronous(virtualFile.getName(), dataIS, contentType, buildURL(target));
+				postDataAsynchronous(virtualFile.getName(), dataIS, contentType, "", target);
 			} else {
-				postData(virtualFile.getName(), dataIS, contentType, buildURL(target));
+				postData(virtualFile.getName(), dataIS, contentType, "", target);
 			}
 		} else {
-			PPImportPlugin.doNotify("Skipping file " + virtualFile.getName(), NotificationType.INFORMATION);
+			PPImportPlugin.doNotify("Skipped file " + virtualFile.getName(), NotificationType.INFORMATION);
 		}
 	}
 
@@ -91,7 +93,7 @@ class PPImporter {
 							doImportSingleFile(false, aVirtualFile, target, includeExtensions);
 						}
 					} catch (IOException e) {
-						PPImportPlugin.doNotify("Import failed with message:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
+						PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
 					}
 					return true;
 				}
@@ -120,7 +122,7 @@ class PPImporter {
 							try {
 								addToJar(finalJarOS, virtualFile);
 							} catch (IOException e) {
-								PPImportPlugin.doNotify("Import failed with message:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
+								PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
 							}
 							return true;
 						}
@@ -141,19 +143,19 @@ class PPImporter {
 		Files.copy(new File(file.getCanonicalPath()), jarOS);
 	}
 
-	private void postDataAsynchronous(final String name, final InputStream dataIS, final String contentType, final String url) {
+	private void postDataAsynchronous(final String name, final InputStream dataIS, final String contentType, final String extraParams, final Target target) {
 		new Thread(new Runnable() {
 			public void run() {
-				postData(name, dataIS, contentType, url);
+				postData(name, dataIS, contentType, extraParams, target);
 			}
 		}).start();
 	}
 
-	private void postData(final String name, final InputStream dataIS, final String contentType, final String url) {
+	private void postData(final String name, final InputStream dataIS, final String contentType, final String extraParams, final Target target) {
 		OutputStream outputStream = null;
 		try {
-			PPImportPlugin.doNotify("Start importing " + name + " to " + url, NotificationType.INFORMATION);
-			URL httpURL = new URL(url);
+			PPImportPlugin.doNotify("Importing " + name + " to " + target.getUrl(), NotificationType.INFORMATION);
+			URL httpURL = buildURL(target, extraParams);
 			HttpURLConnection httpConnection = (HttpURLConnection) httpURL.openConnection();
 			httpConnection.setDoOutput(true);
 			httpConnection.setRequestProperty("Content-Type", contentType);
@@ -167,29 +169,25 @@ class PPImporter {
 			if (responseCode >= 200 && responseCode < 300) {
 				PPImportPlugin.doNotify("Import of " + name + " complete", NotificationType.INFORMATION);
 			} else {
-				PPImportPlugin.doNotify("Import failed with message: " + responseCode + " - " + responseMessage + "\nCheck the server log for more details.", NotificationType.ERROR);
+				PPImportPlugin.doNotify("Import of " + name + " failed: " + responseCode + " - " + responseMessage + "\nCheck the server log for more details.", NotificationType.ERROR);
 			}
 		} catch (Exception e) {
-			PPImportPlugin.doNotify("Import failed with message: " + e.getMessage() + "\nCheck the server log for more details.", NotificationType.ERROR);
+			PPImportPlugin.doNotify("Import failed: " + e.getMessage() + "\nCheck the server log for more details.", NotificationType.ERROR);
 		} finally {
 			Closeables.closeQuietly(dataIS);
 			Closeables.closeQuietly(outputStream);
 		}
 	}
 
-	private String buildURL(Target target) {
-		return this.buildURL(target, null);
-	}
-
-	private String buildURL(Target target, String extraParams) {
+	private URL buildURL(Target target, String extraParams) throws MalformedURLException {
 		StringBuilder url = new StringBuilder();
 		url.append(target.getUrl());
 		url.append("?result=true");
 		url.append("&username=").append(target.getUser());
 		url.append("&password=").append(target.getPassword());
-		if (extraParams != null) {
+		if (StringUtils.isNotBlank(extraParams)) {
 			url.append(extraParams);
 		}
-		return url.toString();
+		return new URL(url.toString());
 	}
 }

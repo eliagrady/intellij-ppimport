@@ -8,7 +8,6 @@ import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.components.*;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.util.xmlb.XmlSerializerUtil;
@@ -18,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,40 +37,39 @@ import java.util.List;
 
 
 @State(
-	name = "PPImportPlugin",
+	name = "PolopolyImportPlugin",
 	storages = {
-		@Storage(id = "ppimport", file = "$PROJECT_FILE$"),
-		@Storage(id = "dir", file = "$PROJECT_CONFIG_DIR$/ppimport.xml", scheme = StorageScheme.DIRECTORY_BASED)
+		@Storage(id = "polopolyImport", file = StoragePathMacros.APP_CONFIG + "/polopoly_import.xml")
 	}
 )
-public class PPImportPlugin implements ProjectComponent, Configurable, PersistentStateComponent<PPConfiguration> {
+public class PPImportPlugin implements ApplicationComponent, Configurable, PersistentStateComponent<PPConfiguration> {
 
-	private static final Logger LOGGER = Logger.getInstance(PPImportPlugin.class);
-
-	private static final String PLUGIN_COMPONENT_NAME = "PPImportPlugin";
-	private static final String PLUGIN_DISPLAY_NAME = "Polopoly Import";
+	private static final String PLUGIN_COMPONENT_NAME = "PolopolyImportPlugin";
+	private static final String PLUGIN_DISPLAY_NAME = "Polopoly Importer";
 
 	private ConfigPanel configGUI;
-	private PPConfiguration state;
+	private PPConfiguration state = new PPConfiguration();
+	private boolean stateLoaded;
 
 	@Override
 	public void initComponent() {
-		LOGGER.info(getDisplayName() + " Plugin loaded");
+		if (!stateLoaded) {
+			state.addDefaultTarget();
+		}
 	}
 
 	private void registerActions() {
 		ActionManager am = ActionManager.getInstance();
 
-		DefaultActionGroup group = (DefaultActionGroup) am.getAction("PPImportGroup");
+		DefaultActionGroup group = (DefaultActionGroup) am.getAction("PolopolyImportPluginGroup");
 		group.removeAll();
 
 		List<String> includeExtensions = getIncludeExtensions(state.getFileExtensions());
 		for (Target target : state.getTargets()) {
-			AnAction action = new PPImportAction(target, includeExtensions, state.packMultipleFilesInJar);
+			AnAction action = new PPImportAction(target, includeExtensions, state.isPackMultipleFilesInJar());
 			am.unregisterAction(target.getProfile());
 			am.registerAction(target.getProfile(), action);
 			group.add(action);
-			LOGGER.info("Registered action for " + target);
 		}
 	}
 
@@ -110,20 +107,9 @@ public class PPImportPlugin implements ProjectComponent, Configurable, Persisten
 
 	@Override
 	public void loadState(PPConfiguration storedState) {
-		state = storedState;
-		LOGGER.info("State loaded");
+		XmlSerializerUtil.copyBean(storedState, state);
+		stateLoaded = true;
 		registerActions();
-		if (configGUI != null) {
-			configGUI.setConfig(state);
-		}
-	}
-
-	@Override
-	public void projectOpened() {
-	}
-
-	@Override
-	public void projectClosed() {
 	}
 
 	@Nullable
@@ -137,22 +123,22 @@ public class PPImportPlugin implements ProjectComponent, Configurable, Persisten
 
 	@Override
 	public boolean isModified() {
-		return !(state == null || configGUI == null || configGUI.getConfig() == null) && !state.equals(configGUI.getConfig());
+		// checks if there are UI changes
+		return configGUI != null && !configGUI.getConfig().equals(state);
 	}
 
 	@Override
 	public void apply() throws ConfigurationException {
-		if (configGUI != null) {
-			state = configGUI.getConfig();
-			registerActions();
-		}
+		// store changes made in the UI
+		state = configGUI.getConfig();
+		// update the popup menu
+		registerActions();
 	}
 
 	@Override
 	public void reset() {
-		if (configGUI != null && state != null) {
-			configGUI.setConfig(state);
-		}
+		// load settings in the UI
+		configGUI.setConfig(state);
 	}
 
 	@Override
@@ -161,6 +147,6 @@ public class PPImportPlugin implements ProjectComponent, Configurable, Persisten
 	}
 
 	public static void doNotify(String message, NotificationType type) {
-		Notifications.Bus.notify(new Notification("PPImport", "PPImport", message, type));
+		Notifications.Bus.notify(new Notification("Polopoly Importer", "Import", message, type));
 	}
 }
