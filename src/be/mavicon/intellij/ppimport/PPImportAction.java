@@ -1,9 +1,8 @@
 package be.mavicon.intellij.ppimport;
 
-import be.mavicon.intellij.ppimport.ui.ConfirmDialog;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 
 import java.util.List;
@@ -30,9 +29,6 @@ class PPImportAction extends AnAction {
 	private List<String> includeExtensions;
 	private boolean uploadMultipleFilesAsJar;
 
-	public PPImportAction() {
-	}
-
 	public PPImportAction(Target target, List<String> includeExtensions, boolean uploadMultipleFilesAsJar) {
 		super(target.getProfile(), "Import content to " + target.getUrl(), null);
 		this.target = target;
@@ -53,15 +49,11 @@ class PPImportAction extends AnAction {
 		VirtualFile[] virtualFiles = e.getData(LangDataKeys.VIRTUAL_FILE_ARRAY);
 		if (isValidSelection(virtualFiles)) {
 			if (target.isConfirm()) {
-				ConfirmDialog confirmDialog = new ConfirmDialog(target.getProfile());
-				confirmDialog.show();
-				int exitCode = confirmDialog.getExitCode();
-
-				if (DialogWrapper.OK_EXIT_CODE != exitCode) {
+				int answer = Messages.showYesNoDialog("Are you sure to import the selected files into " + target.getProfile() + "?", "Confirm Polopoly Import", Messages.getWarningIcon());
+				if (answer == Messages.NO) {
 					PPImportPlugin.doNotify("Import cancelled upon confirmation.", NotificationType.INFORMATION);
 					return;
 				}
-
 			}
 			new PPImporter().doImport(virtualFiles, this.target, this.includeExtensions, this.uploadMultipleFilesAsJar);
 		}
