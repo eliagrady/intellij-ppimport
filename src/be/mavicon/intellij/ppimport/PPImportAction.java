@@ -28,12 +28,14 @@ class PPImportAction extends AnAction {
 	private Target target = null;
 	private List<String> includeExtensions;
 	private boolean uploadMultipleFilesAsJar;
+	private final PPImporter importer;
 
-	public PPImportAction(Target target, List<String> includeExtensions, boolean uploadMultipleFilesAsJar) {
+	public PPImportAction(PPImporter importer, Target target, List<String> includeExtensions, boolean uploadMultipleFilesAsJar) {
 		super(target.getProfile(), "Import content to " + target.getUrl(), null);
 		this.target = target;
 		this.includeExtensions = includeExtensions;
 		this.uploadMultipleFilesAsJar = uploadMultipleFilesAsJar;
+		this.importer = importer;
 	}
 
 	@Override
@@ -55,7 +57,7 @@ class PPImportAction extends AnAction {
 					return;
 				}
 			}
-			new PPImporter().doImport(virtualFiles, this.target, this.includeExtensions, this.uploadMultipleFilesAsJar);
+			importer.doImport(virtualFiles, this.target, this.includeExtensions, this.uploadMultipleFilesAsJar);
 		}
 	}
 

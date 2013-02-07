@@ -3,6 +3,7 @@ package be.mavicon.intellij.ppimport;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Closeables;
 import com.google.common.io.Files;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.roots.ContentIterator;
 import com.intellij.openapi.vfs.VfsUtil;
@@ -15,6 +16,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 
@@ -35,43 +39,83 @@ import java.util.zip.ZipEntry;
 
 class PPImporter {
 
+	private final ScheduledExecutorService executorService;
+
+	public PPImporter() {
+		executorService = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryBuilder().setNameFormat("polopoly-import-%d").build());
+	}
+
 	public void doImport(VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions, final boolean makeJar) {
 		PPImportPlugin.doNotify("Starting import to " + target.getProfile(), NotificationType.INFORMATION);
 
 		try {
 			if (virtualFiles.length == 1 && !virtualFiles[0].isDirectory()) {
 				VirtualFile virtualFile = virtualFiles[0];
-				doImportSingleFile(true, virtualFile, target, includeExtensions);
+				doImportSingleFile(virtualFile, target, includeExtensions);
 			} else if (makeJar) {
-				byte[] jarFile = makeJar(virtualFiles, includeExtensions);
-				if (jarFile != null) {
-					InputStream dataIS = new ByteArrayInputStream(jarFile);
-					String contentType = "application/octet-stream";
-					postDataAsynchronous("jar-file", dataIS, contentType, "&type=jar", target);
-				}
+				doAsyncBuildAndPostJar(virtualFiles, target, includeExtensions);
 			} else {
-				for (VirtualFile virtualFile : virtualFiles) {
-					if (virtualFile.isDirectory()) {
-						doImportDirectory(virtualFile, target, includeExtensions);
-					} else {
-						doImportSingleFile(false, virtualFile, target, includeExtensions);
-					}
-				}
+				doAsyncImportMultiple(virtualFiles, target, includeExtensions);
 			}
 		} catch (IOException e) {
 			PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
 		}
 	}
 
-	private void doImportSingleFile(boolean asynchronous, VirtualFile virtualFile, Target target, List<String> includeExtensions) throws IOException {
+	public void shutdown() {
+		executorService.shutdown();
+	}
+
+	private void doImportMultiple(final VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions) throws IOException {
+		for (VirtualFile virtualFile : virtualFiles) {
+			if (virtualFile.isDirectory()) {
+				doImportDirectory(virtualFile, target, includeExtensions);
+			} else {
+				doImportSingleFile(virtualFile, target, includeExtensions);
+			}
+		}
+	}
+
+	private void doAsyncImportMultiple(final VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions) {
+		executorService.schedule(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					doImportMultiple(virtualFiles, target, includeExtensions);
+				} catch (IOException e) {
+					PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
+				}
+			}
+		}, 0, TimeUnit.SECONDS);
+	}
+
+	private void doBuildAndPostJar(VirtualFile[] virtualFiles, Target target, List<String> includeExtensions) throws IOException {
+		byte[] jarFile = makeJar(virtualFiles, includeExtensions);
+		if (jarFile != null) {
+			InputStream dataIS = new ByteArrayInputStream(jarFile);
+			String contentType = "application/octet-stream";
+			postDataAsynchronous("jar-file", dataIS, contentType, "&type=jar", target);
+		}
+	}
+
+	private void doAsyncBuildAndPostJar(final VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions) {
+		executorService.schedule(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					doBuildAndPostJar(virtualFiles, target, includeExtensions);
+				} catch (IOException e) {
+					PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
+				}
+			}
+		}, 0, TimeUnit.SECONDS);
+	}
+
+	private void doImportSingleFile(VirtualFile virtualFile, Target target, List<String> includeExtensions) throws IOException {
 		if (virtualFile.isInLocalFileSystem() && includeExtensions.contains(virtualFile.getExtension())) {
 			InputStream dataIS = new FileInputStream(virtualFile.getCanonicalPath());
 			String contentType = "text/xml;charset=" + virtualFile.getCharset();
-			if (asynchronous) {
-				postDataAsynchronous(virtualFile.getName(), dataIS, contentType, "", target);
-			} else {
-				postData(virtualFile.getName(), dataIS, contentType, "", target);
-			}
+			postDataAsynchronous(virtualFile.getName(), dataIS, contentType, "", target);
 		} else {
 			PPImportPlugin.doNotify("Skipped file " + virtualFile.getName(), NotificationType.INFORMATION);
 		}
@@ -90,7 +134,7 @@ class PPImporter {
 				public boolean processFile(VirtualFile aVirtualFile) {
 					try {
 						if (!aVirtualFile.isDirectory()) {
-							doImportSingleFile(false, aVirtualFile, target, includeExtensions);
+							doImportSingleFile(aVirtualFile, target, includeExtensions);
 						}
 					} catch (IOException e) {
 						PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
@@ -144,11 +188,11 @@ class PPImporter {
 	}
 
 	private void postDataAsynchronous(final String name, final InputStream dataIS, final String contentType, final String extraParams, final Target target) {
-		new Thread(new Runnable() {
+		executorService.schedule(new Runnable() {
 			public void run() {
 				postData(name, dataIS, contentType, extraParams, target);
 			}
-		}).start();
+		}, 0, TimeUnit.SECONDS);
 	}
 
 	private void postData(final String name, final InputStream dataIS, final String contentType, final String extraParams, final Target target) {

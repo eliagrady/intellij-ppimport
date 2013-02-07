@@ -50,12 +50,14 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 	private ConfigPanel configGUI;
 	private PPConfiguration state = new PPConfiguration();
 	private boolean stateLoaded;
+	private PPImporter importer;
 
 	@Override
 	public void initComponent() {
 		if (!stateLoaded) {
 			state.addDefaultTarget();
 		}
+		importer = new PPImporter();
 	}
 
 	private void registerActions() {
@@ -66,7 +68,7 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 
 		List<String> includeExtensions = getIncludeExtensions(state.getFileExtensions());
 		for (Target target : state.getTargets()) {
-			AnAction action = new PPImportAction(target, includeExtensions, state.isPackMultipleFilesInJar());
+			AnAction action = new PPImportAction(importer, target, includeExtensions, state.isPackMultipleFilesInJar());
 			am.unregisterAction(target.getProfile());
 			am.registerAction(target.getProfile(), action);
 			group.add(action);
@@ -79,6 +81,9 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 
 	@Override
 	public void disposeComponent() {
+		if (importer != null) {
+			importer.shutdown();
+		}
 	}
 
 	@Nls
@@ -147,6 +152,6 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 	}
 
 	public static void doNotify(String message, NotificationType type) {
-		Notifications.Bus.notify(new Notification("Polopoly Importer", "Import", message, type));
+		Notifications.Bus.notify(new Notification("Polopoly Importer", "Polopoly Importer", message, type));
 	}
 }
