@@ -50,14 +50,16 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 	private ConfigPanel configGUI;
 	private PPConfiguration state = new PPConfiguration();
 	private boolean stateLoaded;
-	private PPImporter importer;
+	private PPImporter importer = new PPImporter();
 
 	@Override
 	public void initComponent() {
 		if (!stateLoaded) {
 			state.addDefaultTarget();
 		}
-		importer = new PPImporter();
+		if (importer == null) {
+			importer = new PPImporter();
+		}
 	}
 
 	private void registerActions() {
@@ -83,6 +85,7 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 	public void disposeComponent() {
 		if (importer != null) {
 			importer.shutdown();
+			importer = null;
 		}
 	}
 
