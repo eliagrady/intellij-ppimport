@@ -14,6 +14,7 @@ import java.util.Collections;
 
 /*
  * Copyright 2013 Marc Viaene (Mavicon BVBA)
+ * Copyright 2013 Wim Symons (wim.symons@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
