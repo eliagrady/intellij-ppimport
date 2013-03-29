@@ -1,6 +1,6 @@
 # Polopoly Importer Plugin for IntelliJ
 
-Based on Marc Viane's work (https://github.com/mavicon/intellij-ppimport) and inspiration 
+Based on Marc Viane's work (https://github.com/mavicon/intellij-ppimport) and inspiration
 from Johan Rylander's Atex Polopoly plugin for IntelliJ (https://github.com/jrylander/PolopolyIntelliJPlugin).
 
 This plugin is written to simplify import of content XML files into the Polopoly CMS.
@@ -19,9 +19,9 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 ## Change log
 
-0.3 recurse files in alphabetic order
+0.4 recurse files in alphabetic order
     less notifications about successful imports
-    do imports asynchronously to avoid hanging IDE
+0.3 do imports asynchronously to avoid hanging IDE
 0.2 fixed configuration storage
 0.1 initial release
 

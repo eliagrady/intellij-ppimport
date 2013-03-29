@@ -6,15 +6,18 @@ import com.google.common.io.Files;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.roots.ContentIterator;
-import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileFilter;
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,6 +27,7 @@ import java.util.zip.ZipEntry;
 
 /*
  * Copyright 2013 Marc Viaene (Mavicon BVBA)
+ * Copyright 2013 Wim Symons (wim.symons@gmail.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy
@@ -47,18 +51,13 @@ class PPImporter {
 
 	public void doImport(VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions, final boolean makeJar) {
 		PPImportPlugin.doNotify("Starting import to " + target.getProfile(), NotificationType.INFORMATION);
-
-		try {
-			if (virtualFiles.length == 1 && !virtualFiles[0].isDirectory()) {
-				VirtualFile virtualFile = virtualFiles[0];
-				doImportSingleFile(virtualFile, target, includeExtensions);
-			} else if (makeJar) {
-				doAsyncBuildAndPostJar(virtualFiles, target, includeExtensions);
-			} else {
-				doAsyncImportMultiple(virtualFiles, target, includeExtensions);
-			}
-		} catch (IOException e) {
-			PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
+		if (virtualFiles.length == 1 && !virtualFiles[0].isDirectory()) {
+			VirtualFile virtualFile = virtualFiles[0];
+			doAsyncImportSingle(virtualFile, target, includeExtensions);
+		} else if (makeJar) {
+			doAsyncBuildAndPostJar(virtualFiles, target, includeExtensions);
+		} else {
+			doAsyncImportMultiple(virtualFiles, target, includeExtensions);
 		}
 	}
 
@@ -66,14 +65,18 @@ class PPImporter {
 		executorService.shutdown();
 	}
 
-	private void doImportMultiple(final VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions) throws IOException {
-		for (VirtualFile virtualFile : virtualFiles) {
-			if (virtualFile.isDirectory()) {
-				doImportDirectory(virtualFile, target, includeExtensions);
-			} else {
-				doImportSingleFile(virtualFile, target, includeExtensions);
+	private void doAsyncImportSingle(final VirtualFile virtualFile, final Target target, final List<String> includeExtensions) {
+		executorService.schedule(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					doImportSingleFile(virtualFile, target, includeExtensions);
+					PPImportPlugin.doNotify("Import successful.", NotificationType.INFORMATION);
+				} catch (IOException e) {
+					PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
+				}
 			}
-		}
+		}, 0, TimeUnit.SECONDS);
 	}
 
 	private void doAsyncImportMultiple(final VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions) {
@@ -82,6 +85,21 @@ class PPImporter {
 			public void run() {
 				try {
 					doImportMultiple(virtualFiles, target, includeExtensions);
+					PPImportPlugin.doNotify("Import successful.", NotificationType.INFORMATION);
+				} catch (IOException e) {
+					PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
+				}
+			}
+		}, 0, TimeUnit.SECONDS);
+	}
+
+	private void doAsyncBuildAndPostJar(final VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions) {
+		executorService.schedule(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					doBuildAndPostJar(virtualFiles, target, includeExtensions);
+					PPImportPlugin.doNotify("Import successful.", NotificationType.INFORMATION);
 				} catch (IOException e) {
 					PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
 				}
@@ -94,48 +112,37 @@ class PPImporter {
 		if (jarFile != null) {
 			InputStream dataIS = new ByteArrayInputStream(jarFile);
 			String contentType = "application/octet-stream";
-			postDataAsynchronous("jar-file", dataIS, contentType, "&type=jar", target);
+			postData("jar-file", dataIS, contentType, "&type=jar", target);
 		}
-	}
-
-	private void doAsyncBuildAndPostJar(final VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions) {
-		executorService.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					doBuildAndPostJar(virtualFiles, target, includeExtensions);
-				} catch (IOException e) {
-					PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
-				}
-			}
-		}, 0, TimeUnit.SECONDS);
 	}
 
 	private void doImportSingleFile(VirtualFile virtualFile, Target target, List<String> includeExtensions) throws IOException {
 		if (virtualFile.isInLocalFileSystem() && includeExtensions.contains(virtualFile.getExtension())) {
 			InputStream dataIS = new FileInputStream(virtualFile.getCanonicalPath());
 			String contentType = "text/xml;charset=" + virtualFile.getCharset();
-			postDataAsynchronous(virtualFile.getName(), dataIS, contentType, "", target);
-		} else {
-			PPImportPlugin.doNotify("Skipped file " + virtualFile.getName(), NotificationType.INFORMATION);
+			postData(virtualFile.getName(), dataIS, contentType, "", target);
+		}
+	}
+
+	private void doImportMultiple(final VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions) throws IOException {
+		for (VirtualFile virtualFile : virtualFiles) {
+			if (virtualFile.isDirectory()) {
+				doImportDirectory(virtualFile, target, includeExtensions);
+			} else {
+				doImportSingleFile(virtualFile, target, includeExtensions);
+			}
 		}
 	}
 
 	private void doImportDirectory(VirtualFile virtualFile, final Target target, final List<String> includeExtensions) {
-		VfsUtil.iterateChildrenRecursively(
+		recurseFiles(
 			virtualFile,
-			new VirtualFileFilter() {
-				@Override
-				public boolean accept(VirtualFile virtualFile) {
-					return true;
-				}
-			}, new ContentIterator() {
+			null,
+			new ContentIterator() {
 				@Override
 				public boolean processFile(VirtualFile aVirtualFile) {
 					try {
-						if (!aVirtualFile.isDirectory()) {
-							doImportSingleFile(aVirtualFile, target, includeExtensions);
-						}
+						doImportSingleFile(aVirtualFile, target, includeExtensions);
 					} catch (IOException e) {
 						PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
 					}
@@ -153,20 +160,21 @@ class PPImporter {
 			jarOS = new JarOutputStream(byteOS);
 			for (VirtualFile file : files) {
 				final JarOutputStream finalJarOS = jarOS;
-				VfsUtil.iterateChildrenRecursively(
+				recurseFiles(
 					file,
 					new VirtualFileFilter() {
 						@Override
 						public boolean accept(VirtualFile virtualFile) {
-							return !virtualFile.isDirectory() && includeExtensions.contains(virtualFile.getExtension());
+							return includeExtensions.contains(virtualFile.getExtension());
 						}
-					}, new ContentIterator() {
+					},
+					new ContentIterator() {
 						@Override
 						public boolean processFile(VirtualFile virtualFile) {
 							try {
 								addToJar(finalJarOS, virtualFile);
 							} catch (IOException e) {
-								PPImportPlugin.doNotify("Import failed:\n" + e.getMessage() + "\n\nCheck the server log for more details.", NotificationType.ERROR);
+								PPImportPlugin.doNotify("Adding " + virtualFile.getName() + " to JAR failed.", NotificationType.ERROR);
 							}
 							return true;
 						}
@@ -187,18 +195,9 @@ class PPImporter {
 		Files.copy(new File(file.getCanonicalPath()), jarOS);
 	}
 
-	private void postDataAsynchronous(final String name, final InputStream dataIS, final String contentType, final String extraParams, final Target target) {
-		executorService.schedule(new Runnable() {
-			public void run() {
-				postData(name, dataIS, contentType, extraParams, target);
-			}
-		}, 0, TimeUnit.SECONDS);
-	}
-
 	private void postData(final String name, final InputStream dataIS, final String contentType, final String extraParams, final Target target) {
 		OutputStream outputStream = null;
 		try {
-			PPImportPlugin.doNotify("Importing " + name + " to " + target.getUrl(), NotificationType.INFORMATION);
 			URL httpURL = buildURL(target, extraParams);
 			HttpURLConnection httpConnection = (HttpURLConnection) httpURL.openConnection();
 			httpConnection.setDoOutput(true);
@@ -210,9 +209,7 @@ class PPImporter {
 
 			int responseCode = httpConnection.getResponseCode();
 			String responseMessage = httpConnection.getResponseMessage();
-			if (responseCode >= 200 && responseCode < 300) {
-				PPImportPlugin.doNotify("Import of " + name + " complete", NotificationType.INFORMATION);
-			} else {
+			if (responseCode < 200 || responseCode >= 300) {
 				PPImportPlugin.doNotify("Import of " + name + " failed: " + responseCode + " - " + responseMessage + "\nCheck the server log for more details.", NotificationType.ERROR);
 			}
 		} catch (Exception e) {
@@ -233,5 +230,24 @@ class PPImporter {
 			url.append(extraParams);
 		}
 		return new URL(url.toString());
+	}
+
+	private void recurseFiles(@NotNull VirtualFile dir, @Nullable VirtualFileFilter filter, @NotNull ContentIterator iterator) {
+		@SuppressWarnings("UnsafeVfsRecursion") VirtualFile[] children = dir.getChildren();
+		Arrays.sort(children, new Comparator<VirtualFile>() {
+			@Override
+			public int compare(VirtualFile f1, VirtualFile f2) {
+				return f1.getName().compareTo(f2.getName());
+			}
+		});
+		for (VirtualFile child : children) {
+			if (!child.isSymLink() && !child.isSpecialFile()) {
+				if (child.isDirectory()) {
+					recurseFiles(child, filter, iterator);
+				} else if (filter == null || filter.accept(child)) {
+					iterator.processFile(child);
+				}
+			}
+		}
 	}
 }

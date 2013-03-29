@@ -1,18 +1,21 @@
 <idea-plugin version="2" url="https://github.com/wimsymons/intellij-ppimport">
 	<id>be.mavicon.intellij.ppimport</id>
 	<name>Polopoly Importer</name>
-	<version>0.3</version>
+	<version>0.4</version>
 	<vendor email="wim.symons@gmail.com">Wim Symons</vendor>
 
 	<description><![CDATA[
-      Plugin to import content XML to Polopoly, or any service that accepts HTTP PUT requests for that matter.
-      This version keeps state on application-level, not on project level.
-      ]]></description>
+Plugin to import content XML to Polopoly, or any service that accepts HTTP PUT requests for that matter.
+This version keeps state on application-level, not on project level.
+]]></description>
 
 	<change-notes><![CDATA[
-		0.2 First release.
-		0.3 Implemented executor service to run everything in the background.
-		]]></change-notes>
+0.4 recurse files in alphabetic order
+    less notifications about successful imports
+0.3 do imports asynchronously to avoid hanging IDE
+0.2 fixed configuration storage
+0.1 initial release
+]]></change-notes>
 
 	<idea-version since-build="107.105"/>
 
