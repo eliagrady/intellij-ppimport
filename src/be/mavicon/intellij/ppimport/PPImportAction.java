@@ -2,6 +2,7 @@ package be.mavicon.intellij.ppimport;
 
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.progress.RunBackgroundable;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 
@@ -22,21 +23,18 @@ import java.util.List;
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 @SuppressWarnings("ComponentNotRegistered")
 class PPImportAction extends AnAction {
 
 	private Target target = null;
 	private List<String> includeExtensions;
 	private boolean uploadMultipleFilesAsJar;
-	private final PPImporter importer;
 
-	public PPImportAction(PPImporter importer, Target target, List<String> includeExtensions, boolean uploadMultipleFilesAsJar) {
+	public PPImportAction(Target target, List<String> includeExtensions, boolean uploadMultipleFilesAsJar) {
 		super(target.getProfile(), "Import content to " + target.getUrl(), null);
 		this.target = target;
 		this.includeExtensions = includeExtensions;
 		this.uploadMultipleFilesAsJar = uploadMultipleFilesAsJar;
-		this.importer = importer;
 	}
 
 	@Override
@@ -46,7 +44,6 @@ class PPImportAction extends AnAction {
 		VirtualFile[] files = getSelectedFiles(dataContext);
 		event.getPresentation().setEnabled(isValidSelection(files));
 	}
-
 
 	public void actionPerformed(AnActionEvent e) {
 		VirtualFile[] virtualFiles = e.getData(LangDataKeys.VIRTUAL_FILE_ARRAY);
@@ -58,7 +55,7 @@ class PPImportAction extends AnAction {
 					return;
 				}
 			}
-			importer.doImport(virtualFiles, this.target, this.includeExtensions, this.uploadMultipleFilesAsJar);
+			RunBackgroundable.run(new ImportTask(virtualFiles, this.target, this.includeExtensions, this.uploadMultipleFilesAsJar));
 		}
 	}
 

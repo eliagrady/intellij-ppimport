@@ -35,8 +35,6 @@ import java.util.List;
  * CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
-
 @State(
 	name = "PolopolyImportPlugin",
 	storages = {
@@ -51,15 +49,11 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 	private ConfigPanel configGUI;
 	private PPConfiguration state = new PPConfiguration();
 	private boolean stateLoaded;
-	private PPImporter importer = new PPImporter();
 
 	@Override
 	public void initComponent() {
 		if (!stateLoaded) {
 			state.addDefaultTarget();
-		}
-		if (importer == null) {
-			importer = new PPImporter();
 		}
 	}
 
@@ -71,7 +65,7 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 
 		List<String> includeExtensions = getIncludeExtensions(state.getFileExtensions());
 		for (Target target : state.getTargets()) {
-			AnAction action = new PPImportAction(importer, target, includeExtensions, state.isPackMultipleFilesInJar());
+			AnAction action = new PPImportAction(target, includeExtensions, state.isPackMultipleFilesInJar());
 			am.unregisterAction(target.getProfile());
 			am.registerAction(target.getProfile(), action);
 			group.add(action);
@@ -84,10 +78,6 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 
 	@Override
 	public void disposeComponent() {
-		if (importer != null) {
-			importer.shutdown();
-			importer = null;
-		}
 	}
 
 	@Nls
