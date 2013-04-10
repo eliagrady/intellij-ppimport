@@ -19,17 +19,17 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 ## Change log
 
-0.5 show progress dialog
-    changed 'Import successful' to 'Import finished'
-0.4 recurse files in alphabetic order
-    less notifications about successful imports
-0.3 do imports asynchronously to avoid hanging IDE
-0.2 fixed configuration storage
-0.1 initial release
+    0.5 Show progress dialog.
+        Changed _Import successful_ to _Import finished_.
+    0.4 Recurse files in alphabetic order.
+        Less notifications about successful imports.
+    0.3 Do imports asynchronously to avoid hanging IDE.
+    0.2 Fixed configuration storage.
+    0.1 Initial release.
 
 ## Installing
 
-(requires IntelliJ IDEA 11 or later)
+(Requires IntelliJ IDEA 11 or later.)
 
 Download the **polopoly-import-0.5.jar** from the **distributable** folder.
 
