@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://github.com/wimsymons/intellij-ppimport">
 	<id>be.mavicon.intellij.ppimport</id>
 	<name>Polopoly Importer</name>
-	<version>0.6</version>
+	<version>0.7</version>
 	<vendor email="wim.symons@gmail.com">Wim Symons</vendor>
 
 	<description><![CDATA[
@@ -10,6 +10,8 @@ This version keeps state on application-level, not on project level.
 ]]></description>
 
 	<change-notes><![CDATA[<pre>
+0.7 Added ability to Cancel the background task.
+    Added import actions to the VCS Changes popup menu.
 0.6 Restore _Import finished_ message.
 		Do progress update for a single file.
 0.5 Show progress dialog.
@@ -34,6 +36,7 @@ This version keeps state on application-level, not on project level.
 			<add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
 			<add-to-group group-id="StructureViewPopupMenu" anchor="last"/>
 			<add-to-group group-id="EditorPopupMenu" anchor="last"/>
+			<add-to-group group-id="ChangesViewPopupMenu" anchor="last"/>
 		</group>
 	</actions>
 

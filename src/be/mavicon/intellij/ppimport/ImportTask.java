@@ -30,7 +30,7 @@ class ImportTask extends Task.Backgroundable {
 	private final boolean makeJar;
 
 	public ImportTask(VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions, final boolean makeJar) {
-		super(null, "Polopoly Import progress", false);
+		super(null, "Polopoly Import progress", true);
 		this.virtualFiles = virtualFiles;
 		this.target = target;
 		this.includeExtensions = includeExtensions;

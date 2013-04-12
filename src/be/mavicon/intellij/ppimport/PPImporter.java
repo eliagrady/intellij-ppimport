@@ -56,7 +56,11 @@ class PPImporter {
 		} else {
 			doImportMultiple(virtualFiles, target, includeExtensions);
 		}
-		PPImportPlugin.doNotify("Finished import into " + target.getProfile(), NotificationType.INFORMATION);
+		if (progressIndicator.isCanceled()) {
+			PPImportPlugin.doNotify("Import into " + target.getProfile() + " cancelled.", NotificationType.INFORMATION);
+		} else {
+			PPImportPlugin.doNotify("Finished import into " + target.getProfile(), NotificationType.INFORMATION);
+		}
 	}
 
 	private void doBuildAndPostJar(VirtualFile[] virtualFiles, Target target, List<String> includeExtensions) {
@@ -111,6 +115,10 @@ class PPImporter {
 
 		int counter = 0;
 		for (VirtualFile file : filesToProcess) {
+			if (progressIndicator.isCanceled()) {
+				break;
+			}
+
 			progressIndicator.setFraction((double) counter / numberFiles);
 			progressIndicator.setText("Importing " + file.getName() + " ...");
 
@@ -143,12 +151,15 @@ class PPImporter {
 			jarOS = new JarOutputStream(byteOS);
 			int counter = 0;
 			for (VirtualFile file : filesToProcess) {
+				if (progressIndicator.isCanceled()) {
+					break;
+				}
 				progressIndicator.setFraction((double) counter / numberFiles);
 				progressIndicator.setText("Adding " + file.getName() + " ...");
 				addToJar(jarOS, file);
 			}
 			jarOS.flush();
-			return byteOS.toByteArray();
+			return progressIndicator.isCanceled() ? null : byteOS.toByteArray();
 		} finally {
 			Closeables.closeQuietly(jarOS);
 			Closeables.closeQuietly(byteOS);
