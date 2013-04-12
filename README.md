@@ -19,10 +19,10 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 ## Change log
 
-    0.6 Restore _Import finished_ message.
+    0.6 Restore "Import finished" message.
         Do progress update for a single file.
     0.5 Show progress dialog.
-        Changed _Import successful_ to _Import finished_.
+        Changed "Import successful" to "Import finished".
     0.4 Recurse files in alphabetic order.
         Less notifications about successful imports.
     0.3 Do imports asynchronously to avoid hanging IDE.
