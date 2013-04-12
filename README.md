@@ -21,10 +21,10 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
     0.7 Added ability to Cancel the background task.
         Added import actions to the VCS Changes popup menu.
-		0.6 Restore _Import finished_ message.
+		0.6 Restore "Import finished" message.
 		    Do progress update for a single file.
     0.5 Show progress dialog.
-        Changed _Import successful_ to _Import finished_.
+        Changed "Import successful" to "Import finished".
     0.4 Recurse files in alphabetic order.
         Less notifications about successful imports.
     0.3 Do imports asynchronously to avoid hanging IDE.
@@ -35,12 +35,12 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 (Requires IntelliJ IDEA 11 or later.)
 
-Download the **polopoly-import-0.7.jar** from the **distributable** folder.
+Download the **polopoly-import-0.6.jar** from the **distributable** folder.
 
 1. Start IntelliJ IDEA.
 2. Open the plugin manager dialog (**Menu: File > Settings > Plugins**)
 3. Click **Install plugin from disk** button to open the **Choose Plugin file** dialog.
-4. Select the **polopoly-import-0.7.jar** file and click **OK** to close the dialog.
+4. Select the **polopoly-import-0.6.jar** file and click **OK** to close the dialog.
 5. Click **OK** to close the **Settings** dialog.
 6. Restart IntelliJ IDEA.
 
