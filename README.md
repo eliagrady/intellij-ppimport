@@ -19,8 +19,8 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 ## Change log
 
-		0.6 Restore _Import finished_ message.
-		    Do progress update for a single file.
+    0.6 Restore _Import finished_ message.
+        Do progress update for a single file.
     0.5 Show progress dialog.
         Changed _Import successful_ to _Import finished_.
     0.4 Recurse files in alphabetic order.
