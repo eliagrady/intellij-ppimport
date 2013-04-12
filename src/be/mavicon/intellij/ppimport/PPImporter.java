@@ -47,7 +47,7 @@ class PPImporter {
 	}
 
 	public void doImport(VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions, final boolean makeJar) {
-		PPImportPlugin.doNotify("Starting import to " + target.getProfile(), NotificationType.INFORMATION);
+		PPImportPlugin.doNotify("Starting import into " + target.getProfile(), NotificationType.INFORMATION);
 		if (virtualFiles.length == 1 && !virtualFiles[0].isDirectory()) {
 			VirtualFile virtualFile = virtualFiles[0];
 			doImportSingleFile(virtualFile, target, includeExtensions);
@@ -56,6 +56,7 @@ class PPImporter {
 		} else {
 			doImportMultiple(virtualFiles, target, includeExtensions);
 		}
+		PPImportPlugin.doNotify("Finished import into " + target.getProfile(), NotificationType.INFORMATION);
 	}
 
 	private void doBuildAndPostJar(VirtualFile[] virtualFiles, Target target, List<String> includeExtensions) {
@@ -75,9 +76,13 @@ class PPImporter {
 		if (virtualFile.isInLocalFileSystem() && includeExtensions.contains(virtualFile.getExtension())) {
 			InputStream dataIS;
 			try {
+				progressIndicator.setIndeterminate(false);
+				progressIndicator.setFraction(0.5D);
+				progressIndicator.setText("Importing " + virtualFile.getName() + " ...");
 				dataIS = new FileInputStream(virtualFile.getCanonicalPath());
 				String contentType = "text/xml;charset=" + virtualFile.getCharset();
 				postData(virtualFile.getName(), dataIS, contentType, "", target);
+				progressIndicator.setFraction(1.0D);
 			} catch (FileNotFoundException e) {
 				PPImportPlugin.doNotify("Import of " + virtualFile.getName() + " failed: " + e.getMessage(), NotificationType.ERROR);
 			}
@@ -100,8 +105,8 @@ class PPImporter {
 		// build list of files to process
 		Collection<VirtualFile> filesToProcess = getFileList(virtualFile, null);
 
-		progressIndicator.setFraction(0.0D);
 		progressIndicator.setIndeterminate(false);
+		progressIndicator.setFraction(0.0D);
 		double numberFiles = filesToProcess.size();
 
 		int counter = 0;
@@ -130,8 +135,8 @@ class PPImporter {
 				}));
 			}
 
-			progressIndicator.setFraction(0.0D);
 			progressIndicator.setIndeterminate(false);
+			progressIndicator.setFraction(0.0D);
 			double numberFiles = filesToProcess.size();
 
 			byteOS = new ByteArrayOutputStream();
