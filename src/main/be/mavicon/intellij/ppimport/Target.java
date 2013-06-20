@@ -89,4 +89,14 @@ public class Target {
 		return result;
 	}
 
+	@Override
+	public int hashCode() {
+		int result = profile != null ? profile.hashCode() : 0;
+		result = 31 * result + (url != null ? url.hashCode() : 0);
+		result = 31 * result + (user != null ? user.hashCode() : 0);
+		result = 31 * result + (password != null ? password.hashCode() : 0);
+		result = 31 * result + (confirm ? 1 : 0);
+		return result;
+	}
+
 }

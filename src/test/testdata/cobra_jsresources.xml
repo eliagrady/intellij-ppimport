@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<batch xmlns="http://www.polopoly.com/polopoly/cm/xmlio">
+	<content>
+		<metadata>
+			<contentid>
+				<externalid>cultuur</externalid>
+			</contentid>
+		</metadata>
+		<component group="staticJavascriptFiles" name="count">13</component>
+		<component group="staticJavascriptFiles[0]/jsFile" name="value">http://build.uitdatabank.be/widgets/js/json.js</component>
+		<component group="staticJavascriptFiles[1]/jsFile" name="value">http://build.uitdatabank.be/widgets/p/209/widgets.js</component>
+		<component group="staticJavascriptFiles[2]/jsFile" name="value">/html/js/site.concat.js?v=${js.version}</component>
+		<component group="staticJavascriptFiles[3]/jsFile" name="value">/html/js/general.concat.js?v=${js.version}</component>
+		<component group="staticJavascriptFiles[4]/jsFile" name="value">/html/js/elems.concat.js?v=${js.version}</component>
+		<component group="staticJavascriptFiles[5]/jsFile" name="value">/html/js/common/start.js?v=${js.version}</component>
+		<component group="staticJavascriptFiles[6]/jsFile" name="value">/html/js/cultuur2011.js?v=${js.version}</component>
+		<component group="staticJavascriptFiles[7]/jsFile" name="value">/html/js/common/new-videozone.js?v=${js.version}</component>
+		<component group="staticJavascriptFiles[8]/jsFile" name="value">http://c.pebblemedia.be/js/c.js</component>
+		<component group="staticJavascriptFiles[9]/jsFile" name="value">http://pool.pebblemedia.adhese.com/tag/tag.js</component>
+		<component group="staticJavascriptFiles[10]/jsFile" name="value">/html/js/common/eventtracking.js?v=${js.version}</component>
+		<component group="staticJavascriptFiles[11]/jsFile" name="value">http://mp.vrt.be/player/vrtMediaPlayer.js</component>
+		<component group="staticJavascriptFiles[12]/jsFile" name="value">/html/js/common/videoplayer-mp.js?v=${js.version}</component>
+	</content>
+</batch>

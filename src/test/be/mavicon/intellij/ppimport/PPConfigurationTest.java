@@ -43,6 +43,7 @@ public class PPConfigurationTest {
 		Assert.assertTrue("fileExtensions not found", xml.contains("fileExtensions"));
 		Assert.assertTrue("packMultipleFilesInJar not found", xml.contains("packMultipleFilesInJar"));
 		Assert.assertTrue("targets not found", xml.contains("targets"));
+		Assert.assertTrue("replacements not found", xml.contains("replacements"));
 		Assert.assertTrue("profile not found", xml.contains("profile"));
 		Assert.assertTrue("url not found", xml.contains("url"));
 		Assert.assertTrue("user not found", xml.contains("user"));
@@ -68,9 +69,26 @@ public class PPConfigurationTest {
 	}
 
 	@Test
+	public void testSerializeReplacement() {
+		PPConfiguration config = new PPConfiguration();
+		config.getReplacements().add(new Replacement("abc", "xyz"));
+		Element serialized = XmlSerializer.serialize(config.getReplacements().get(0));
+
+		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+		String xml = outputter.outputString(serialized);
+
+		Assert.assertNotNull("no blank xml", xml);
+		Assert.assertTrue("search not found", xml.contains("search"));
+		Assert.assertTrue("replacement not found", xml.contains("replacement"));
+	}
+
+	@Test
 	public void testCopy() {
 		PPConfiguration config = new PPConfiguration();
 		config.addDefaultTarget();
+		config.getReplacements().add(new Replacement("from", "to"));
+		config.setFileExtensions("xml");
+		config.setPackMultipleFilesInJar(false);
 
 		PPConfiguration copiedConfig = new PPConfiguration();
 		XmlSerializerUtil.copyBean(config, copiedConfig);

@@ -8,17 +8,21 @@ This plugin is written to simplify import of content XML files into the Polopoly
 ## Key features
 
 * import a single file or import multiple file selections
-* import not only from the editor, but also from project tool window
+* import not only from the editor, but also from Project Tool window and the Changes Tool window
 * multiple files can be imported in bulk (as a jar) (specific Polopoly functionality)
 * specify multiple targets (e.g. local, dev, staging and production) directly accessible from the context menu
 * specify file extensions to import
 * protect against accidental imports by asking for a confirmation (per target configurable)
+* search and replace specific strings in the content before importing
 
 This plugin stores the configuration at the IntelliJ application level, so they are available in all IntelliJ projects.
 This is different from Johan or Marc's plugin, which store this information separately for each project.
 
 ## Change log
 
+    0.9 Added ability to find and replace strings in the imported data.
+    0.8 Fixed the import progress.
+        Fixed the import of files in the VCS Changes.
     0.7 Added ability to Cancel the background task.
         Added import actions to the VCS Changes popup menu.
 		0.6 Restore "Import finished" message.
@@ -35,12 +39,12 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 (Requires IntelliJ IDEA 11 or later.)
 
-Download the **polopoly-import-0.6.jar** from the **distributable** folder.
+Download the **polopoly-import-0.9.jar** from the **distributable** folder.
 
 1. Start IntelliJ IDEA.
 2. Open the plugin manager dialog (**Menu: File > Settings > Plugins**)
 3. Click **Install plugin from disk** button to open the **Choose Plugin file** dialog.
-4. Select the **polopoly-import-0.6.jar** file and click **OK** to close the dialog.
+4. Select the **polopoly-import-0.9.jar** file and click **OK** to close the dialog.
 5. Click **OK** to close the **Settings** dialog.
 6. Restart IntelliJ IDEA.
 

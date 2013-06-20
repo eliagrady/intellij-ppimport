@@ -25,9 +25,10 @@ import java.util.List;
 
 public class PPConfiguration {
 
-	public List<Target> targets = new ArrayList<Target>();
+	public final List<Target> targets = new ArrayList<Target>();
+	public final List<Replacement> replacements = new ArrayList<Replacement>();
 	public String fileExtensions = "xml";
-	public boolean packMultipleFilesInJar = true;
+	public boolean packMultipleFilesInJar = false;
 
 	public PPConfiguration() {
 	}
@@ -35,6 +36,9 @@ public class PPConfiguration {
 	public PPConfiguration(PPConfiguration another) {
 		for (Target target : another.targets) {
 			targets.add(new Target(target));
+		}
+		for (Replacement replacement : another.replacements) {
+			replacements.add(new Replacement(replacement));
 		}
 		fileExtensions = another.fileExtensions;
 		packMultipleFilesInJar = another.packMultipleFilesInJar;
@@ -46,6 +50,10 @@ public class PPConfiguration {
 
 	public List<Target> getTargets() {
 		return targets;
+	}
+
+	public List<Replacement> getReplacements() {
+		return replacements;
 	}
 
 	public String getFileExtensions() {

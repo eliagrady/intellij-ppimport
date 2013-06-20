@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://github.com/wimsymons/intellij-ppimport">
 	<id>be.mavicon.intellij.ppimport</id>
 	<name>Polopoly Importer</name>
-	<version>0.7</version>
+	<version>0.9</version>
 	<vendor email="wim.symons@gmail.com">Wim Symons</vendor>
 
 	<description><![CDATA[
@@ -10,6 +10,9 @@ This version keeps state on application-level, not on project level.
 ]]></description>
 
 	<change-notes><![CDATA[<pre>
+0.9 Added ability to find and replace strings in the imported data.
+0.8 Fixed the import progress.
+    Fixed the import of files in the VCS Changes.
 0.7 Added ability to Cancel the background task.
     Added import actions to the VCS Changes popup menu.
 0.6 Restore _Import finished_ message.

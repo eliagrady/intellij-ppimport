@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<batch xmlns="http://www.polopoly.com/polopoly/cm/xmlio">
+
+	<!-- livestream testdata resource: v_livestream_11_stubru -->
+	<content>
+		<metadata>
+			<contentid>
+				<major>Article</major>
+				<minor>1346275</minor>
+				<externalid>vrtnieuws.videozone.livestream.stubru_vr</externalid>
+			</contentid>
+			<input-template>
+				<major>InputTemplate</major>
+				<externalid>be.vrt.cm.common.resource.VideoStream.it</externalid>
+			</input-template>
+			<security-parent>
+				<major>Department</major>
+				<externalid>vrtnieuws.videozone</externalid>
+			</security-parent>
+		</metadata>
+		<component group="polopoly.Content" name="name">V_LIVESTREAM_11_stubru</component>
+		<component group="geoBlocking" name="value">false</component>
+		<component group="source" name="value">VRT</component>
+		<component group="streamURL" name="value">rtmp://live.stream.vrt.be/vrt_stubru_live/web_800.sdp</component>
+		<component group="mobileStreamURL" name="value">rtsp://live.stream.vrt.be/vrt_stubru_live/android_800.sdp</component>
+		<component group="iphoneStreamURL" name="value">http://live.stream.vrt.be/vrt_stubru_live/smil:vrt_stubru_live_ios.smil/playlist.m3u8</component>
+		<contentref group="polopoly.Parent" name="insertParentId">
+			<contentid>
+				<major>Department</major>
+				<externalid>vrtnieuws.videozone</externalid>
+			</contentid>
+		</contentref>
+	</content>
+
+	<!-- media testdata article: mv_livestream_11_stubru -->
+	<content>
+		<metadata>
+			<contentid>
+				<major>Article</major>
+				<minor>1346272</minor>
+				<externalid>vrtnieuws.videozone.livestream.stubru_mv</externalid>
+			</contentid>
+			<input-template>
+				<major>InputTemplate</major>
+				<externalid>be.vrt.wco.cm.it.v3MediaVideoArticle</externalid>
+			</input-template>
+			<security-parent>
+				<major>Department</major>
+				<externalid>vrtnieuws.videozone</externalid>
+			</security-parent>
+		</metadata>
+		<component group="" name="siteStatLabel"/>
+		<component group="" name="siteStatTitle"/>
+		<component group="addToPlaylist" name="value">true</component>
+		<component group="allowDownload" name="value">true</component>
+		<component group="allowZeroRating" name="value">false</component>
+		<component group="disqusCommentsEnabled" name="selected"/>
+		<component group="enableEmbed" name="value">false</component>
+		<component group="iosDownloadEnabled" name="selected"/>
+		<component group="polopoly.Content" name="name">MV_LIVESTREAM_11_stubru</component>
+		<component group="title" name="value">Livestream Studio Brussel</component>
+		<component group="publicationWizard" name="count">0</component>
+		<component group="startTime" name="value">00:00</component>
+		<component group="rating" name="value">0</component>
+		<component group="relatedMedia" name="count">0</component>
+		<component group="publicationDate" name="defaultFormat">2012-09-23 15:13</component>
+		<component group="publicationDate" name="date">1348405980219</component>
+		<component group="publicationDate" name="userFormat">23/09/2012 15:13</component>
+		<contentref group="polopoly.Parent" name="insertParentId">
+			<contentid>
+				<major>Department</major>
+				<externalid>vrtnieuws.videozone</externalid>
+			</contentid>
+		</contentref>
+		<contentref group="testdata" name="reference">
+			<contentid>
+				<major>Article</major>
+				<externalid>vrtnieuws.videozone.livestream.stubru_vr</externalid>
+			</contentid>
+		</contentref>
+	</content>
+
+</batch>

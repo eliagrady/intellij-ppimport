@@ -1,6 +1,5 @@
 package be.mavicon.intellij.ppimport;
 
-import com.intellij.openapi.progress.PerformInBackgroundOption;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -28,19 +27,21 @@ class ImportTask extends Task.Backgroundable {
 	private final Target target;
 	private final List<String> includeExtensions;
 	private final boolean makeJar;
+	private final List<Replacement> replacements;
 
-	public ImportTask(VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions, final boolean makeJar) {
+	public ImportTask(final VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions, final List<Replacement> replacements, final boolean makeJar) {
 		super(null, "Polopoly Import progress", true);
 		this.virtualFiles = virtualFiles;
 		this.target = target;
 		this.includeExtensions = includeExtensions;
+		this.replacements = replacements;
 		this.makeJar = makeJar;
 	}
 
 	@Override
 	public void run(@NotNull ProgressIndicator progressIndicator) {
-		PPImporter importer = new PPImporter(progressIndicator);
-		importer.doImport(virtualFiles, target, includeExtensions, makeJar);
+		PPImporter importer = new PPImporter(progressIndicator, target, includeExtensions, replacements, makeJar);
+		importer.doImport(virtualFiles);
 	}
 
 }

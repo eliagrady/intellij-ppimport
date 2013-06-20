@@ -1,6 +1,8 @@
 package be.mavicon.intellij.ppimport;
 
 import be.mavicon.intellij.ppimport.ui.ConfigPanel;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
@@ -11,13 +13,11 @@ import com.intellij.openapi.components.*;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.util.xmlb.XmlSerializerUtil;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -63,9 +63,8 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 		DefaultActionGroup group = (DefaultActionGroup) am.getAction("PolopolyImportPluginGroup");
 		group.removeAll();
 
-		List<String> includeExtensions = getIncludeExtensions(state.getFileExtensions());
 		for (Target target : state.getTargets()) {
-			AnAction action = new PPImportAction(target, includeExtensions, state.isPackMultipleFilesInJar());
+			AnAction action = new PPImportAction(target, getIncludeExtensions(state.getFileExtensions()), state.getReplacements(), state.isPackMultipleFilesInJar());
 			am.unregisterAction(target.getProfile());
 			am.registerAction(target.getProfile(), action);
 			group.add(action);
@@ -73,7 +72,7 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 	}
 
 	private List<String> getIncludeExtensions(String fileExtensions) {
-		return Arrays.asList(StringUtils.split(StringUtils.defaultString(fileExtensions), ','));
+		return ImmutableList.copyOf(Splitter.on(',').split(fileExtensions));
 	}
 
 	@Override
