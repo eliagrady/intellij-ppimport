@@ -25,8 +25,8 @@ This is different from Johan or Marc's plugin, which store this information sepa
         Fixed the import of files in the VCS Changes.
     0.7 Added ability to Cancel the background task.
         Added import actions to the VCS Changes popup menu.
-		0.6 Restore "Import finished" message.
-		    Do progress update for a single file.
+    0.6 Restore "Import finished" message.
+        Do progress update for a single file.
     0.5 Show progress dialog.
         Changed "Import successful" to "Import finished".
     0.4 Recurse files in alphabetic order.
