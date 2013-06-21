@@ -1,4 +1,4 @@
-package be.mavicon.intellij.ppimport;
+package be.wimsymons.intellij.polopolyimport;
 
 /*
  * Copyright 2013 Wim Symons (wim.symons@gmail.com)
@@ -18,12 +18,15 @@ package be.mavicon.intellij.ppimport;
 /**
  * Replacement contains the basic data of a text replacement.
  */
+@SuppressWarnings("WeakerAccess")
 public class Replacement {
 
 	public String search;
 	public String replacement;
 
+	@SuppressWarnings("UnusedDeclaration")
 	public Replacement() {
+		// empty default constructor for serialization
 	}
 
 	public Replacement(String search, String replacement) {

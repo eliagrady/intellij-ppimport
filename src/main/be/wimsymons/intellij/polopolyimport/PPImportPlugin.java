@@ -1,6 +1,6 @@
-package be.mavicon.intellij.ppimport;
+package be.wimsymons.intellij.polopolyimport;
 
-import be.mavicon.intellij.ppimport.ui.ConfigPanel;
+import be.wimsymons.intellij.polopolyimport.ui.ConfigPanel;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.intellij.notification.Notification;
@@ -44,6 +44,7 @@ import java.util.List;
 public class PPImportPlugin implements ApplicationComponent, Configurable, PersistentStateComponent<PPConfiguration> {
 
 	private static final String PLUGIN_COMPONENT_NAME = "PolopolyImportPlugin";
+	private static final String PLUGIN_GROUP_NAME = PLUGIN_COMPONENT_NAME + "Group";
 	private static final String PLUGIN_DISPLAY_NAME = "Polopoly Importer";
 
 	private ConfigPanel configGUI;
@@ -60,7 +61,7 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 	private void registerActions() {
 		ActionManager am = ActionManager.getInstance();
 
-		DefaultActionGroup group = (DefaultActionGroup) am.getAction("PolopolyImportPluginGroup");
+		DefaultActionGroup group = (DefaultActionGroup) am.getAction(PLUGIN_GROUP_NAME);
 		group.removeAll();
 
 		for (Target target : state.getTargets()) {
@@ -145,6 +146,6 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 	}
 
 	public static void doNotify(String message, NotificationType type) {
-		Notifications.Bus.notify(new Notification("Polopoly Importer", "Polopoly Importer", message, type));
+		Notifications.Bus.notify(new Notification(PLUGIN_DISPLAY_NAME, PLUGIN_DISPLAY_NAME, message, type));
 	}
 }

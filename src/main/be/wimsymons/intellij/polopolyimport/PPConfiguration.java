@@ -1,4 +1,4 @@
-package be.mavicon.intellij.ppimport;
+package be.wimsymons.intellij.polopolyimport;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -23,6 +23,7 @@ import java.util.List;
  * specific language governing permissions and limitations under the License.
  */
 
+@SuppressWarnings("WeakerAccess")
 public class PPConfiguration {
 
 	public final List<Target> targets = new ArrayList<Target>();

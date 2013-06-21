@@ -1,8 +1,8 @@
-package be.mavicon.intellij.ppimport.ui;
+package be.wimsymons.intellij.polopolyimport.ui;
 
-import be.mavicon.intellij.ppimport.PPConfiguration;
-import be.mavicon.intellij.ppimport.Replacement;
-import be.mavicon.intellij.ppimport.Target;
+import be.wimsymons.intellij.polopolyimport.PPConfiguration;
+import be.wimsymons.intellij.polopolyimport.Replacement;
+import be.wimsymons.intellij.polopolyimport.Target;
 import com.intellij.ui.table.JBTable;
 
 import javax.swing.*;
@@ -51,8 +51,8 @@ public class ConfigPanel {
 	private JButton removeReplacementButton;
 	private int currentSelection = -1;
 
-	private static final String[] COLUMN_NAMES = {"profile", "url"};
-	private static final String[] REPLACEMENT_COLUMN_NAMES = {"search", "replace with"};
+	private static final String[] COLUMN_NAMES = {"Profile", "URL"};
+	private static final String[] REPLACEMENT_COLUMN_NAMES = {"Text to find", "Replace with"};
 
 	public ConfigPanel() {
 		config = new PPConfiguration();

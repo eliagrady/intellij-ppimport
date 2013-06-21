@@ -1,6 +1,6 @@
-package be.mavicon.intellij.ppimport;
+package be.wimsymons.intellij.polopolyimport;
 
-import be.mavicon.intellij.ppimport.io.StringReplaceReader;
+import be.wimsymons.intellij.polopolyimport.io.ReplacementsInputStreamBuilder;
 import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closeables;
@@ -272,12 +272,6 @@ class PPImporter {
 	}
 
 	private Reader wrapWithReplacements(InputStream in) {
-		Reader reader = new InputStreamReader(in);
-		for (Replacement replacement : replacements) {
-			if (!Strings.isNullOrEmpty(replacement.getSearch())) {
-				reader = new StringReplaceReader(reader, replacement.getSearch(), replacement.getReplacement());
-			}
-		}
-		return reader;
+		return new InputStreamReader(ReplacementsInputStreamBuilder.with(in, replacements));
 	}
 }

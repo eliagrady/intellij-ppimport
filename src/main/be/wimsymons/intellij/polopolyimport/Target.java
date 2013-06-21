@@ -1,4 +1,4 @@
-package be.mavicon.intellij.ppimport;
+package be.wimsymons.intellij.polopolyimport;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  * Target contains the basic data of a target place to where files can be sent.
  */
+@SuppressWarnings("WeakerAccess")
 public class Target {
 
 	public String profile;
@@ -30,6 +31,7 @@ public class Target {
 	public String password;
 	public boolean confirm;
 
+	@SuppressWarnings("UnusedDeclaration")
 	public Target() {
 		// empty default constructor for serialization
 	}

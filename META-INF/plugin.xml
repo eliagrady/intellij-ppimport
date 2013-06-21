@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://github.com/wimsymons/intellij-ppimport">
-	<id>be.mavicon.intellij.ppimport</id>
+	<id>be.wimsymons.intellij.polopolyimport</id>
 	<name>Polopoly Importer</name>
-	<version>0.9</version>
+	<version>1.0</version>
 	<vendor email="wim.symons@gmail.com">Wim Symons</vendor>
 
 	<description><![CDATA[
@@ -10,17 +10,19 @@ This version keeps state on application-level, not on project level.
 ]]></description>
 
 	<change-notes><![CDATA[<pre>
+1.0 First official release on plugins.jetbrains.com.
+    Removed GPL licensed code.
 0.9 Added ability to find and replace strings in the imported data.
 0.8 Fixed the import progress.
     Fixed the import of files in the VCS Changes.
 0.7 Added ability to Cancel the background task.
     Added import actions to the VCS Changes popup menu.
 0.6 Restore _Import finished_ message.
-		Do progress update for a single file.
+    Do progress update for a single file.
 0.5 Show progress dialog.
-		Changed _Import successful_ to _Import finished_.
+    Changed _Import successful_ to _Import finished_.
 0.4 Recurse files in alphabetic order.
-		Less notifications about successful imports.
+    Less notifications about successful imports.
 0.3 Do imports asynchronously to avoid hanging IDE.
 0.2 Fixed configuration storage.
 0.1 Initial release.
@@ -30,7 +32,7 @@ This version keeps state on application-level, not on project level.
 
 	<application-components>
 		<component>
-			<implementation-class>be.mavicon.intellij.ppimport.PPImportPlugin</implementation-class>
+			<implementation-class>be.wimsymons.intellij.polopolyimport.PPImportPlugin</implementation-class>
 		</component>
 	</application-components>
 

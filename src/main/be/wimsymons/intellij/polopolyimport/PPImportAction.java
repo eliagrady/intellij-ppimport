@@ -1,4 +1,4 @@
-package be.mavicon.intellij.ppimport;
+package be.wimsymons.intellij.polopolyimport;
 
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnAction;

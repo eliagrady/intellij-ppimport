@@ -1,4 +1,4 @@
-package be.mavicon.intellij.ppimport;
+package be.wimsymons.intellij.polopolyimport;
 
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
@@ -30,7 +30,7 @@ class ImportTask extends Task.Backgroundable {
 	private final List<Replacement> replacements;
 
 	public ImportTask(final VirtualFile[] virtualFiles, final Target target, final List<String> includeExtensions, final List<Replacement> replacements, final boolean makeJar) {
-		super(null, "Polopoly Import progress", true);
+		super(null, "Polopoly import progress", true);
 		this.virtualFiles = virtualFiles;
 		this.target = target;
 		this.includeExtensions = includeExtensions;

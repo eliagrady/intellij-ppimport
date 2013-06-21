@@ -1,4 +1,4 @@
-package be.mavicon.intellij.ppimport;
+package be.wimsymons.intellij.polopolyimport;
 
 import com.intellij.util.xmlb.XmlSerializer;
 import com.intellij.util.xmlb.XmlSerializerUtil;
@@ -26,7 +26,8 @@ import org.junit.Test;
 
 /**
  * Test serialization done by IntelliJ.
- * {@author Wim Symons}
+ *
+ * @author Wim Symons
  */
 public class PPConfigurationTest {
 
