@@ -1,6 +1,7 @@
 package be.wimsymons.intellij.polopolyimport;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -23,13 +24,12 @@ import java.util.List;
  * specific language governing permissions and limitations under the License.
  */
 
-@SuppressWarnings("WeakerAccess")
 public class PPConfiguration {
 
-	public final List<Target> targets = new ArrayList<Target>();
-	public final List<Replacement> replacements = new ArrayList<Replacement>();
-	public String fileExtensions = "xml";
-	public boolean packMultipleFilesInJar = false;
+	private List<Target> targets = new ArrayList<Target>();
+	private List<Replacement> replacements = new ArrayList<Replacement>();
+	private String fileExtensions = "xml";
+	private boolean packMultipleFilesInJar = false;
 
 	public PPConfiguration() {
 	}
@@ -51,6 +51,14 @@ public class PPConfiguration {
 
 	public List<Target> getTargets() {
 		return targets;
+	}
+
+	public void setTargets(List<Target> targets) {
+		this.targets = targets;
+	}
+
+	public void setReplacements(List<Replacement> replacements) {
+		this.replacements = replacements;
 	}
 
 	public List<Replacement> getReplacements() {
@@ -86,17 +94,30 @@ public class PPConfiguration {
 		}
 		PPConfiguration rhs = (PPConfiguration) theOther;
 		return new EqualsBuilder()
-			.appendSuper(super.equals(theOther))
 			.append(targets, rhs.targets)
+			.append(replacements, rhs.replacements)
 			.append(fileExtensions, rhs.fileExtensions)
 			.append(packMultipleFilesInJar, rhs.packMultipleFilesInJar)
 			.isEquals();
 	}
 
 	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(targets)
+			.append(replacements)
+			.append(fileExtensions)
+			.append(packMultipleFilesInJar)
+			.toHashCode();
+	}
+
+	@Override
 	public String toString() {
-		return new ToStringBuilder(ToStringStyle.SHORT_PREFIX_STYLE).append("fileExtensions", fileExtensions)
+		return new ToStringBuilder(ToStringStyle.SHORT_PREFIX_STYLE)
+			.append("targets", targets)
+			.append("replacements", replacements)
+			.append("fileExtensions", fileExtensions)
 			.append("packMultipleFilesInJar", packMultipleFilesInJar)
-			.append("targets", targets).toString();
+			.toString();
 	}
 }

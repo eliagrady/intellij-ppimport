@@ -1,6 +1,8 @@
 package be.wimsymons.intellij.polopolyimport;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /*
@@ -22,14 +24,13 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  * Target contains the basic data of a target place to where files can be sent.
  */
-@SuppressWarnings("WeakerAccess")
 public class Target {
 
-	public String profile;
-	public String url;
-	public String user;
-	public String password;
-	public boolean confirm;
+	private String profile;
+	private String url;
+	private String user;
+	private String password;
+	private boolean confirm;
 
 	@SuppressWarnings("UnusedDeclaration")
 	public Target() {
@@ -44,12 +45,32 @@ public class Target {
 		this.confirm = confirm;
 	}
 
-	public Target(Target another) {
+	public Target(final Target another) {
 		this.profile = another.profile;
 		this.url = another.url;
 		this.user = another.user;
 		this.password = another.password;
 		this.confirm = another.confirm;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setConfirm(boolean confirm) {
+		this.confirm = confirm;
 	}
 
 	public String getProfile() {
@@ -74,31 +95,45 @@ public class Target {
 
 	@Override
 	public String toString() {
-		return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).toString();
+		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+			.append("profile", profile)
+			.append("url", url)
+			.append("user", user)
+			.append("password", password)
+			.append("confirm", confirm)
+			.toString();
 	}
 
 	@Override
 	public boolean equals(Object theOther) {
-		boolean result = false;
-		if (theOther instanceof Target) {
-			Target other = (Target) theOther;
-			result = this.profile.equals(other.profile) &&
-				this.url.equals(other.url) &&
-				this.user.equals(other.user) &&
-				this.password.equals(other.password) &&
-				this.confirm == other.confirm;
+		if (theOther == null) {
+			return false;
 		}
-		return result;
+		if (theOther == this) {
+			return true;
+		}
+		if (theOther.getClass() != getClass()) {
+			return false;
+		}
+		Target rhs = (Target) theOther;
+		return new EqualsBuilder()
+			.append(profile, rhs.profile)
+			.append(url, rhs.url)
+			.append(user, rhs.user)
+			.append(password, rhs.password)
+			.append(confirm, rhs.confirm)
+			.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		int result = profile != null ? profile.hashCode() : 0;
-		result = 31 * result + (url != null ? url.hashCode() : 0);
-		result = 31 * result + (user != null ? user.hashCode() : 0);
-		result = 31 * result + (password != null ? password.hashCode() : 0);
-		result = 31 * result + (confirm ? 1 : 0);
-		return result;
+		return new HashCodeBuilder()
+			.append(profile)
+			.append(url)
+			.append(user)
+			.append(password)
+			.append(confirm)
+			.toHashCode();
 	}
 
 }

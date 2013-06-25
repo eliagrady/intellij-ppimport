@@ -15,14 +15,18 @@ package be.wimsymons.intellij.polopolyimport;
  * specific language governing permissions and limitations under the License.
  */
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 /**
  * Replacement contains the basic data of a text replacement.
  */
-@SuppressWarnings("WeakerAccess")
 public class Replacement {
 
-	public String search;
-	public String replacement;
+	private String search;
+	private String replacement;
 
 	@SuppressWarnings("UnusedDeclaration")
 	public Replacement() {
@@ -34,7 +38,7 @@ public class Replacement {
 		this.replacement = replacement;
 	}
 
-	public Replacement(Replacement replacement) {
+	public Replacement(final Replacement replacement) {
 		this.search = replacement.search;
 		this.replacement = replacement.replacement;
 	}
@@ -56,22 +60,36 @@ public class Replacement {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-
-		Replacement that = (Replacement) o;
-
-		if (replacement != null ? !replacement.equals(that.replacement) : that.replacement != null) return false;
-		if (search != null ? !search.equals(that.search) : that.search != null) return false;
-
-		return true;
+	public boolean equals(Object theOther) {
+		if (theOther == null) {
+			return false;
+		}
+		if (theOther == this) {
+			return true;
+		}
+		if (theOther.getClass() != getClass()) {
+			return false;
+		}
+		Replacement rhs = (Replacement) theOther;
+		return new EqualsBuilder()
+			.append(search, rhs.search)
+			.append(replacement, rhs.replacement)
+			.isEquals();
 	}
 
 	@Override
 	public int hashCode() {
-		int result = search != null ? search.hashCode() : 0;
-		result = 31 * result + (replacement != null ? replacement.hashCode() : 0);
-		return result;
+		return new HashCodeBuilder()
+			.append(search)
+			.append(replacement)
+			.toHashCode();
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+			.append("search", search)
+			.append("replacement", replacement)
+			.toString();
 	}
 }
