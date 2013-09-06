@@ -272,6 +272,10 @@ class PPImporter {
 	}
 
 	private Reader wrapWithReplacements(InputStream in) {
-		return new InputStreamReader(ReplacementsInputStreamBuilder.with(in, replacements));
+		if (replacements.isEmpty()) {
+			return new InputStreamReader(in);
+		} else {
+			return new InputStreamReader(ReplacementsInputStreamBuilder.with(in, replacements));
+		}
 	}
 }

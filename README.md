@@ -20,6 +20,7 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 ## Change log
 
+    1.2 Fixed ArrayIndexOutOfBoundsException: 0 when there are no replacements.
     1.1 Fixed configuration storage again.
     1.0 First release on plugins.jetbrains.com
         Replaced StringReplaceReader under GPLv2 license with Swizzle Stream library under Apache v2 license.
@@ -42,12 +43,12 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 Requires IntelliJ IDEA 11 or later.
 
-Download the **polopoly-import-1.1.jar** from the **distributable** folder.
+Download the **polopoly-import-1.2.jar** from the **distributable** folder.
 
 1. Start IntelliJ IDEA.
 2. Open the plugin manager dialog (**Menu: File > Settings > Plugins**)
 3. Click **Install plugin from disk** button to open the **Choose Plugin file** dialog.
-4. Select the **polopoly-import-1.1.jar** file and click **OK** to close the dialog.
+4. Select the **polopoly-import-1.2.jar** file and click **OK** to close the dialog.
 5. Click **OK** to close the **Settings** dialog.
 6. Restart IntelliJ IDEA.
 

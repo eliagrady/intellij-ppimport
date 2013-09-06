@@ -8,6 +8,7 @@ import com.google.common.io.Closeables;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -18,6 +19,16 @@ import static org.junit.Assert.assertEquals;
  * @author Wim Symons
  */
 public class ReplacementsInputStreamBuilderTest {
+
+	@Test
+	public void testNoReplace() throws IOException {
+		List<Replacement> replacements = Collections.emptyList();
+		String originalString = "R.I.P. James Gandolfini.";
+
+		String actual = doReplace(originalString, replacements);
+
+		assertEquals("R.I.P. James Gandolfini.", actual);
+	}
 
 	@Test
 	public void testSimpleReplace() throws IOException {
@@ -65,14 +76,21 @@ public class ReplacementsInputStreamBuilderTest {
 	private String doReplace(String originalString, List<Replacement> replacements) throws IOException {
 		Reader reader = null;
 		StringWriter writer = null;
+		ByteArrayInputStream in = null;
 		String actual;
 		try {
-			reader = new InputStreamReader(ReplacementsInputStreamBuilder.with(new ByteArrayInputStream(originalString.getBytes()), replacements));
+			in = new ByteArrayInputStream(originalString.getBytes());
+			if (replacements.isEmpty()) {
+				reader = new InputStreamReader(in);
+			} else {
+				reader = new InputStreamReader(ReplacementsInputStreamBuilder.with(in, replacements));
+			}
 			writer = new StringWriter();
 			CharStreams.copy(reader, writer);
 			actual = writer.toString();
 		} finally {
 			Closeables.closeQuietly(reader);
+			Closeables.closeQuietly(in);
 			Closeables.closeQuietly(writer);
 		}
 		return actual;
