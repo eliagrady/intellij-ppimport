@@ -3,7 +3,6 @@ package be.wimsymons.intellij.polopolyimport;
 import be.wimsymons.intellij.polopolyimport.io.ReplacementsInputStreamBuilder;
 import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
-import com.google.common.io.Closeables;
 import com.google.common.io.Closer;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.diagnostic.Logger;
