@@ -4,7 +4,6 @@ import be.wimsymons.intellij.polopolyimport.io.ReplacementsInputStreamBuilder;
 import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closeables;
-import com.google.common.io.Closer;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
@@ -50,8 +49,7 @@ class PPImporter {
 	private int totalCount = 0;
 	private int skippedCount = 0;
 
-	public PPImporter(final ProgressIndicator progressIndicator, final Target target, final List<String> includeExtensions,
-		final List<Replacement> replacements, final boolean makeJar) {
+	public PPImporter(final ProgressIndicator progressIndicator, final Target target, final List<String> includeExtensions, final List<Replacement> replacements, final boolean makeJar) {
 		this.progressIndicator = progressIndicator;
 		this.target = target;
 		this.includeExtensions = includeExtensions;
@@ -141,7 +139,6 @@ class PPImporter {
 	private byte[] makeJar(VirtualFile[] files) throws IOException {
 		JarOutputStream jarOS = null;
 		ByteArrayOutputStream byteOS = null;
-		Closer closer = Closer.create();
 		try {
 			progressIndicator.setIndeterminate(true);
 
@@ -156,8 +153,8 @@ class PPImporter {
 
 			totalCount = filesToProcess.size();
 
-			byteOS = closer.register(new ByteArrayOutputStream());
-			jarOS = closer.register(new JarOutputStream(byteOS));
+			byteOS = new ByteArrayOutputStream();
+			jarOS = new JarOutputStream(byteOS);
 			int counter = 0;
 			for (VirtualFile file : filesToProcess) {
 				if (progressIndicator.isCanceled()) {
@@ -178,30 +175,29 @@ class PPImporter {
 			jarOS.flush();
 			return progressIndicator.isCanceled() ? null : byteOS.toByteArray();
 		} finally {
-			closer.close();
+			Closeables.close(jarOS, true);
+			Closeables.close(byteOS, true);
 		}
 	}
 
 	private void addToJar(JarOutputStream jarOS, VirtualFile file) throws IOException {
-		Closer closer = Closer.create();
 		JarEntry entry = new JarEntry(file.getCanonicalPath());
 		entry.setTime(file.getTimeStamp());
 		jarOS.putNextEntry(entry);
+		Reader reader = wrapWithReplacements(file.getInputStream());
+		Writer writer = new OutputStreamWriter(jarOS);
 		try {
-			Reader reader = closer.register(wrapWithReplacements(file.getInputStream()));
-			Writer writer = closer.register(new OutputStreamWriter(jarOS));
 			CharStreams.copy(reader, writer);
 		} finally {
-			closer.close();
+			Closeables.close(reader, true);
+			Closeables.close(writer, true);
 		}
 	}
 
 	private void postData(final String name, final Reader reader, final String contentType, final String extraParams) throws IOException {
 		Writer writer = null;
 		LOGGER.info("Doing HTTP POST for " + name);
-		Closer closer = Closer.create();
 		try {
-			closer.register(reader);
 			URL httpURL = buildURL(target, extraParams);
 
 			HttpURLConnection httpConnection = (HttpURLConnection) httpURL.openConnection();
@@ -212,7 +208,7 @@ class PPImporter {
 			httpConnection.setReadTimeout(60000);
 			httpConnection.connect();
 
-			writer = closer.register(new OutputStreamWriter(httpConnection.getOutputStream()));
+			writer = new OutputStreamWriter(httpConnection.getOutputStream());
 			CharStreams.copy(reader, writer);
 			writer.flush();
 
@@ -220,14 +216,7 @@ class PPImporter {
 			String responseMessage = httpConnection.getResponseMessage();
 			if (responseCode < 200 || responseCode >= 300) {
 				failureCount++;
-				PPImportPlugin.doNotify(
-					"Import of "
-						+ name
-						+ " failed: "
-						+ responseCode
-						+ " - "
-						+ responseMessage
-						+ "\nCheck the server log for more details.", NotificationType.ERROR);
+				PPImportPlugin.doNotify("Import of " + name + " failed: " + responseCode + " - " + responseMessage + "\nCheck the server log for more details.", NotificationType.ERROR);
 			} else {
 				successCount++;
 			}
@@ -235,7 +224,8 @@ class PPImporter {
 			failureCount++;
 			PPImportPlugin.doNotify("Import of " + name + " failed: " + e.getMessage(), NotificationType.ERROR);
 		} finally {
-			closer.close();
+			Closeables.close(reader, true);
+			Closeables.close(writer, true);
 		}
 	}
 
@@ -253,13 +243,12 @@ class PPImporter {
 
 	@SuppressWarnings("UnsafeVfsRecursion")
 	private void recurseFiles(@NotNull VirtualFile virtualFile, @NotNull ContentIterator iterator) {
-		TreeSet<VirtualFile> sortedDeduplicatedFiles = new TreeSet<VirtualFile>(
-			new Comparator<VirtualFile>() {
-				@Override
-				public int compare(VirtualFile f1, VirtualFile f2) {
-					return f1.getName().compareTo(f2.getName());
-				}
-			});
+		TreeSet<VirtualFile> sortedDeduplicatedFiles = new TreeSet<VirtualFile>(new Comparator<VirtualFile>() {
+			@Override
+			public int compare(VirtualFile f1, VirtualFile f2) {
+				return f1.getName().compareTo(f2.getName());
+			}
+		});
 		if (virtualFile.isDirectory()) {
 			Collections.addAll(sortedDeduplicatedFiles, virtualFile.getChildren());
 			for (VirtualFile child : sortedDeduplicatedFiles) {
@@ -273,13 +262,12 @@ class PPImporter {
 	private Collection<VirtualFile> getFileList(@NotNull VirtualFile dir) {
 		LOGGER.info("Getting file list ...");
 		final Collection<VirtualFile> result = new LinkedHashSet<VirtualFile>();
-		recurseFiles(
-			dir, new ContentIterator() {
-				@Override
-				public boolean processFile(VirtualFile virtualFile) {
-					return result.add(virtualFile);
-				}
-			});
+		recurseFiles(dir, new ContentIterator() {
+			@Override
+			public boolean processFile(VirtualFile virtualFile) {
+				return result.add(virtualFile);
+			}
+		});
 		return result;
 	}
 

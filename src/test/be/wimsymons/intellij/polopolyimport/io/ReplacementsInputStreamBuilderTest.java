@@ -89,9 +89,9 @@ public class ReplacementsInputStreamBuilderTest {
 			CharStreams.copy(reader, writer);
 			actual = writer.toString();
 		} finally {
-			Closeables.closeQuietly(reader);
-			Closeables.closeQuietly(in);
-			Closeables.closeQuietly(writer);
+			Closeables.close(reader, true);
+			Closeables.close(in, true);
+			Closeables.close(writer, true);
 		}
 		return actual;
 	}
