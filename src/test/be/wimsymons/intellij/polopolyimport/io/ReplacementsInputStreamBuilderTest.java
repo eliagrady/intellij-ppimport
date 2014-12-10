@@ -4,7 +4,7 @@ import be.wimsymons.intellij.polopolyimport.Replacement;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.CharStreams;
-import com.google.common.io.Closeables;
+import com.google.common.io.Closer;
 import org.junit.Test;
 
 import java.io.*;
@@ -78,20 +78,19 @@ public class ReplacementsInputStreamBuilderTest {
 		StringWriter writer = null;
 		ByteArrayInputStream in = null;
 		String actual;
+		Closer closer = Closer.create();
 		try {
-			in = new ByteArrayInputStream(originalString.getBytes());
+			in = closer.register(new ByteArrayInputStream(originalString.getBytes()));
 			if (replacements.isEmpty()) {
-				reader = new InputStreamReader(in);
+				reader = closer.register(new InputStreamReader(in));
 			} else {
-				reader = new InputStreamReader(ReplacementsInputStreamBuilder.with(in, replacements));
+				reader = closer.register(new InputStreamReader(ReplacementsInputStreamBuilder.with(in, replacements)));
 			}
-			writer = new StringWriter();
+			writer = closer.register(new StringWriter());
 			CharStreams.copy(reader, writer);
 			actual = writer.toString();
 		} finally {
-			Closeables.closeQuietly(reader);
-			Closeables.closeQuietly(in);
-			Closeables.closeQuietly(writer);
+			closer.close();
 		}
 		return actual;
 	}
