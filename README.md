@@ -1,7 +1,7 @@
 # Polopoly Importer Plugin for IntelliJ
 
-Based on Marc Viane's work (https://github.com/mavicon/intellij-ppimport) and inspiration
-from Johan Rylander's Atex Polopoly plugin for IntelliJ (https://github.com/jrylander/PolopolyIntelliJPlugin).
+Based on Marc Viane's work <https://github.com/mavicon/intellij-ppimport> and inspiration
+from Johan Rylander's Atex Polopoly plugin for IntelliJ <https://github.com/jrylander/PolopolyIntelliJPlugin>.
 
 This plugin is written to simplify import of content XML files into the Polopoly CMS.
 
@@ -20,6 +20,7 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 ## Change log
 
+    1.5 Fixed charset conversion issues
     1.4 Fixed NullPointerException on IDEA 12
     1.3 Fixed issue with Guava deprecating Closeables.closeQuietly in Guava 15
     1.2 Fixed ArrayIndexOutOfBoundsException: 0 when there are no replacements.
@@ -45,22 +46,22 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 Requires IntelliJ IDEA 11 or later.
 
-Download the **polopoly-import-1.4.jar** from the **distributable** folder.
+Download the **polopoly-import-1.5.jar** from the **distributable** folder.
 
 1. Start IntelliJ IDEA.
 2. Open the plugin manager dialog (**Menu: File > Settings > Plugins**)
 3. Click **Install plugin from disk** button to open the **Choose Plugin file** dialog.
-4. Select the **polopoly-import-1.4.jar** file and click **OK** to close the dialog.
+4. Select the **polopoly-import-1.5.jar** file and click **OK** to close the dialog.
 5. Click **OK** to close the **Settings** dialog.
 6. Restart IntelliJ IDEA.
 
 ## Libraries
 
-This software uses the [Swizzle Stream](http://swizzle.codehaus.org/Swizzle+Stream) library from The Codehaus.
+This software uses parts of <http://www.eli.sdsu.edu/java-SDSU/>  distributed under Apache License 2.0.
 
 ## Copyright and license
 
-Copyright 2013 Wim Symons
+Copyright 2016 Wim Symons
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this work except in compliance with the License.
