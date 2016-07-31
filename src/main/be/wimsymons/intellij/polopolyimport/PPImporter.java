@@ -1,6 +1,6 @@
 package be.wimsymons.intellij.polopolyimport;
 
-import be.wimsymons.intellij.polopolyimport.io.ReplacementsInputStreamBuilder;
+import be.wimsymons.intellij.polopolyimport.io.ReplacementsReaderBuilder;
 import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closeables;
@@ -11,11 +11,24 @@ import com.intellij.openapi.roots.ContentIterator;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.nio.charset.Charset;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.TreeSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
@@ -98,7 +111,7 @@ class PPImporter {
 			try {
 				dataIS = virtualFile.getInputStream();
 				String contentType = "text/xml;charset=" + virtualFile.getCharset();
-				postData(virtualFile.getName(), wrapWithReplacements(dataIS), contentType, "");
+				postData(virtualFile.getName(), wrapWithReplacements(dataIS, virtualFile.getCharset()), contentType, "");
 			} catch (IOException e) {
 				PPImportPlugin.doNotify("Import of " + virtualFile.getName() + " failed: " + e.getMessage(), NotificationType.ERROR);
 			}
@@ -184,7 +197,7 @@ class PPImporter {
 		JarEntry entry = new JarEntry(file.getCanonicalPath());
 		entry.setTime(file.getTimeStamp());
 		jarOS.putNextEntry(entry);
-		Reader reader = wrapWithReplacements(file.getInputStream());
+		Reader reader = wrapWithReplacements(file.getInputStream(), file.getCharset());
 		Writer writer = new OutputStreamWriter(jarOS);
 		try {
 			CharStreams.copy(reader, writer);
@@ -271,11 +284,11 @@ class PPImporter {
 		return result;
 	}
 
-	private Reader wrapWithReplacements(InputStream in) {
+	private Reader wrapWithReplacements(InputStream in, Charset charset) {
 		if (replacements.isEmpty()) {
-			return new InputStreamReader(in);
+			return new InputStreamReader(in, charset);
 		} else {
-			return new InputStreamReader(ReplacementsInputStreamBuilder.with(in, replacements));
+			return ReplacementsReaderBuilder.with(new InputStreamReader(in, charset), replacements);
 		}
 	}
 }
