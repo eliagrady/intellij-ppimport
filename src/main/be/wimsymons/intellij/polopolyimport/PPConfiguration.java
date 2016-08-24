@@ -26,8 +26,8 @@ import java.util.List;
 
 public class PPConfiguration {
 
-	private List<Target> targets = new ArrayList<Target>();
-	private List<Replacement> replacements = new ArrayList<Replacement>();
+	private List<Target> targets = new ArrayList<>();
+	private List<Replacement> replacements = new ArrayList<>();
 	private String fileExtensions = "xml";
 	private boolean packMultipleFilesInJar = false;
 
