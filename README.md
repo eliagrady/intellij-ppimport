@@ -20,7 +20,6 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 ## Change log
 
-    1.5.1 Patch storage configuration for Intellij 2016
     1.5 Fixed charset conversion issues
     1.4 Fixed NullPointerException on IDEA 12
     1.3 Fixed issue with Guava deprecating Closeables.closeQuietly in Guava 15
@@ -47,7 +46,7 @@ This is different from Johan or Marc's plugin, which store this information sepa
 
 Requires IntelliJ IDEA 11 or later.
 
-Download the **polopoly-import-1.5.1.jar** from the **distributable** folder.
+Download the **polopoly-import-1.5.jar** from the **distributable** folder.
 
 1. Start IntelliJ IDEA.
 2. Open the plugin manager dialog (**Menu: File > Settings > Plugins**)
