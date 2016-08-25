@@ -39,8 +39,7 @@ import java.util.List;
 	name = "PolopolyImportPlugin",
 	storages = {
 		@Storage(id = "polopolyImport", value = "polopoly_import.xml")
-	},
-  reloadable = false
+	}
 )
 public class PPImportPlugin implements ApplicationComponent, Configurable, PersistentStateComponent<PPConfiguration> {
 
@@ -49,8 +48,8 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 	private static final String PLUGIN_DISPLAY_NAME = "Polopoly Importer";
 
 	private ConfigPanel configGUI;
-	private static PPConfiguration state = new PPConfiguration(); // Declaring static to make application-level available
-	private static boolean stateLoaded;
+	private PPConfiguration state = new PPConfiguration();
+	private boolean stateLoaded;
 
 	@Override
 	public void initComponent() {
@@ -105,8 +104,6 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 		return state;
 	}
 
-
-
 	@Override
 	public void loadState(PPConfiguration storedState) {
 		XmlSerializerUtil.copyBean(storedState, state);
@@ -148,7 +145,7 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 		configGUI = null;
 	}
 
-	static void doNotify(String message, NotificationType type) {
+	public static void doNotify(String message, NotificationType type) {
 		Notifications.Bus.notify(new Notification(PLUGIN_DISPLAY_NAME, PLUGIN_DISPLAY_NAME, message, type));
 	}
 }

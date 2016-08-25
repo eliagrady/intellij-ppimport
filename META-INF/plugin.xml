@@ -3,7 +3,6 @@
   <name>Polopoly Importer</name>
   <version>1.5.1</version>
   <vendor email="wim.symons@gmail.com">Wim Symons</vendor>
-
   <description><![CDATA[
 <p>
 Plugin to import content XML into the Atex Polopoly CMS.
@@ -75,7 +74,6 @@ This version keeps state on application-level, not on project level.
   </application-components>
   <extensions defaultExtensionNs="com.intellij">
     <applicationConfigurable instance="be.wimsymons.intellij.polopolyimport.PPImportPlugin"/>
-    <applicationService serviceImplementation="be.wimsymons.intellij.polopolyimport.PPImportPlugin"/>
   </extensions>
   <actions>
     <group id="PolopolyImportPluginGroup" popup="true" text="Polopoly Import" description="Import content">
