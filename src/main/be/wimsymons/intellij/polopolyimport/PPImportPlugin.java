@@ -38,7 +38,7 @@ import java.util.List;
 @State(
 	name = "PolopolyImportPlugin",
 	storages = {
-		@Storage(id = "polopolyImport", file = StoragePathMacros.APP_CONFIG + "/polopoly_import.xml")
+		@Storage(id = "polopolyImport", value = "polopoly_import.xml")
 	}
 )
 public class PPImportPlugin implements ApplicationComponent, Configurable, PersistentStateComponent<PPConfiguration> {
@@ -116,7 +116,7 @@ public class PPImportPlugin implements ApplicationComponent, Configurable, Persi
 	public JComponent createComponent() {
 		if (configGUI == null) {
 			configGUI = new ConfigPanel();
-		}
+    }
 		return configGUI.getRootPanel();
 	}
 

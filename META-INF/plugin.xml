@@ -1,10 +1,9 @@
 <idea-plugin version="2" url="https://github.com/wimsymons/intellij-ppimport">
-	<id>be.wimsymons.intellij.polopolyimport</id>
-	<name>Polopoly Importer</name>
-	<version>1.5</version>
-	<vendor email="wim.symons@gmail.com">Wim Symons</vendor>
-
-	<description><![CDATA[
+  <id>be.wimsymons.intellij.polopolyimport</id>
+  <name>Polopoly Importer</name>
+  <version>1.5.1</version>
+  <vendor email="wim.symons@gmail.com">Wim Symons</vendor>
+  <description><![CDATA[
 <p>
 Plugin to import content XML into the Atex Polopoly CMS.
 </p>
@@ -13,8 +12,12 @@ This version keeps state on application-level, not on project level.
 </p>
 ]]></description>
 
-	<change-notes><![CDATA[
+  <change-notes><![CDATA[
 <dl>
+
+	<dt>1.5.1</dt>
+	<dd>Patch storage configuration for Intellij 2016</dd>
+
 	<dt>1.5</dt>
 	<dd>Fixed charset conversion issues</dd>
 
@@ -62,21 +65,23 @@ This version keeps state on application-level, not on project level.
 </dl>
 ]]></change-notes>
 
-	<idea-version since-build="107.105"/>
+  <idea-version since-build="107.105"/>
 
-	<application-components>
-		<component>
-			<implementation-class>be.wimsymons.intellij.polopolyimport.PPImportPlugin</implementation-class>
-		</component>
-	</application-components>
-
-	<actions>
-		<group id="PolopolyImportPluginGroup" popup="true" text="Polopoly Import" description="Import content">
-			<add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
-			<add-to-group group-id="StructureViewPopupMenu" anchor="last"/>
-			<add-to-group group-id="EditorPopupMenu" anchor="last"/>
-			<add-to-group group-id="ChangesViewPopupMenu" anchor="last"/>
-		</group>
-	</actions>
+  <application-components>
+    <component>
+      <implementation-class>be.wimsymons.intellij.polopolyimport.PPImportPlugin</implementation-class>
+    </component>
+  </application-components>
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationConfigurable instance="be.wimsymons.intellij.polopolyimport.PPImportPlugin"/>
+  </extensions>
+  <actions>
+    <group id="PolopolyImportPluginGroup" popup="true" text="Polopoly Import" description="Import content">
+      <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+      <add-to-group group-id="StructureViewPopupMenu" anchor="last"/>
+      <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+      <add-to-group group-id="ChangesViewPopupMenu" anchor="last"/>
+    </group>
+  </actions>
 
 </idea-plugin>
