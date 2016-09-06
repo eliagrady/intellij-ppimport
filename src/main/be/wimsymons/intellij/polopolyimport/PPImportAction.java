@@ -4,7 +4,7 @@ import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
-import com.intellij.openapi.progress.RunBackgroundable;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 
@@ -28,29 +28,39 @@ import java.util.List;
 @SuppressWarnings("ComponentNotRegistered")
 class PPImportAction extends AnAction {
 
-	private final Target target;
-	private final List<String> includeExtensions;
-	private final List<Replacement> replacements;
-	private final boolean uploadMultipleFilesAsJar;
+  private final Target target;
+  private final List<String> includeExtensions;
+  private final List<Replacement> replacements;
+  private final boolean uploadMultipleFilesAsJar;
 
-	public PPImportAction(Target target, List<String> includeExtensions, List<Replacement> replacements, boolean uploadMultipleFilesAsJar) {
-		super(target.getProfile(), "Import content to " + target.getUrl(), null);
-		this.target = target;
-		this.includeExtensions = includeExtensions;
-		this.replacements = replacements;
-		this.uploadMultipleFilesAsJar = uploadMultipleFilesAsJar;
-	}
+  public PPImportAction(
+    Target target,
+    List<String> includeExtensions,
+    List<Replacement> replacements,
+    boolean uploadMultipleFilesAsJar) {
+    super(target.getProfile(), "Import content to " + target.getUrl(), null);
+    this.target = target;
+    this.includeExtensions = includeExtensions;
+    this.replacements = replacements;
+    this.uploadMultipleFilesAsJar = uploadMultipleFilesAsJar;
+  }
 
-	public void actionPerformed(AnActionEvent e) {
-		VirtualFile[] virtualFiles = e.getData(LangDataKeys.VIRTUAL_FILE_ARRAY);
-		if (target.isConfirm()) {
-			int answer = Messages.showYesNoDialog("Are you sure to import the selected files into " + target.getProfile() + "?", "Confirm Polopoly Import", Messages.getWarningIcon());
-			if (answer == Messages.NO) {
-				PPImportPlugin.doNotify("Import cancelled upon confirmation.", NotificationType.INFORMATION);
-				return;
-			}
-		}
-		RunBackgroundable.run(new ImportTask(virtualFiles, this.target, this.includeExtensions, this.replacements, this.uploadMultipleFilesAsJar));
-	}
+  public void actionPerformed(AnActionEvent e) {
+    VirtualFile[] virtualFiles = e.getData(LangDataKeys.VIRTUAL_FILE_ARRAY);
+    if (target.isConfirm()) {
+      int answer = Messages.showYesNoDialog("Are you sure to import the selected files into " + target.getProfile() + "?",
+        "Confirm Polopoly Import",
+        Messages.getWarningIcon());
+      if (answer == Messages.NO) {
+        PPImportPlugin.doNotify("Import cancelled upon confirmation.", NotificationType.INFORMATION);
+        return;
+      }
+    }
+    ProgressManager.getInstance().run(new ImportTask(virtualFiles,
+      this.target,
+      this.includeExtensions,
+      this.replacements,
+      this.uploadMultipleFilesAsJar));
+  }
 
 }
