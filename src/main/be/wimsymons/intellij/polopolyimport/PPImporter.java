@@ -9,16 +9,11 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.roots.ContentIterator;
 import com.intellij.openapi.vfs.VirtualFile;
+import org.apache.commons.lang.CharSet;
+import org.apache.xmlbeans.impl.common.ReaderInputStream;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -50,8 +45,9 @@ import java.util.jar.JarOutputStream;
 class PPImporter {
 
 	private static final Logger LOGGER = Logger.getInstance(PPImporter.class);
+  private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 
-	private final ProgressIndicator progressIndicator;
+  private final ProgressIndicator progressIndicator;
 	private final Target target;
 	private final List<String> includeExtensions;
 	private final List<Replacement> replacements;
@@ -110,8 +106,9 @@ class PPImporter {
 			InputStream dataIS;
 			try {
 				dataIS = virtualFile.getInputStream();
-				String contentType = "text/xml;charset=" + virtualFile.getCharset();
+				String contentType = "text/xml&charset=" + virtualFile.getCharset();
 				postData(virtualFile.getName(), wrapWithReplacements(dataIS, virtualFile.getCharset()), contentType, "");
+//				postData(virtualFile.getName(), dataIS, contentType, "");
 			} catch (IOException e) {
 				PPImportPlugin.doNotify("Import of " + virtualFile.getName() + " failed: " + e.getMessage(), NotificationType.ERROR);
 			}
@@ -207,40 +204,47 @@ class PPImporter {
 		}
 	}
 
-	private void postData(final String name, final Reader reader, final String contentType, final String extraParams) throws IOException {
-		Writer writer = null;
-		LOGGER.info("Doing HTTP POST for " + name);
-		try {
-			URL httpURL = buildURL(target, extraParams);
+  private void postData(final String name, final Reader reader, final String contentType, final String extraParams) throws IOException {
+    Writer writer = null;
+    LOGGER.info("Doing HTTP POST for " + name);
+    try {
+      URL httpURL = buildURL(target, extraParams);
 
-			HttpURLConnection httpConnection = (HttpURLConnection) httpURL.openConnection();
-			httpConnection.setDoOutput(true);
-			httpConnection.setRequestProperty("Content-Type", contentType);
-			httpConnection.setRequestMethod("PUT");
-			httpConnection.setConnectTimeout(2000);
-			httpConnection.setReadTimeout(60000);
-			httpConnection.connect();
+      HttpURLConnection httpConnection = (HttpURLConnection) httpURL.openConnection();
+      httpConnection.setDoInput(true);
+      httpConnection.setDoOutput(true);
+      httpConnection.setUseCaches(false);
+      httpConnection.setRequestMethod("PUT");
+      httpConnection.setRequestProperty("Content-Type", contentType);
+      httpConnection.setConnectTimeout(2000);
+      httpConnection.setReadTimeout(60000);
+      httpConnection.connect();
 
-			writer = new OutputStreamWriter(httpConnection.getOutputStream());
-			CharStreams.copy(reader, writer);
-			writer.flush();
+      if(contentType.contains("UTF-8")) {
+        copyAndFlush(reader, httpConnection.getOutputStream());
+      }
+      else {
+        writer = new OutputStreamWriter(httpConnection.getOutputStream());
+        CharStreams.copy(reader, writer);
+        writer.flush();
+      }
 
-			int responseCode = httpConnection.getResponseCode();
-			String responseMessage = httpConnection.getResponseMessage();
-			if (responseCode < 200 || responseCode >= 300) {
-				failureCount++;
-				PPImportPlugin.doNotify("Import of " + name + " failed: " + responseCode + " - " + responseMessage + "\nCheck the server log for more details.", NotificationType.ERROR);
-			} else {
-				successCount++;
-			}
-		} catch (IOException e) {
-			failureCount++;
-			PPImportPlugin.doNotify("Import of " + name + " failed: " + e.getMessage(), NotificationType.ERROR);
-		} finally {
-			Closeables.close(reader, true);
-			Closeables.close(writer, true);
-		}
-	}
+      int responseCode = httpConnection.getResponseCode();
+      String responseMessage = httpConnection.getResponseMessage();
+      if (responseCode < 200 || responseCode >= 300) {
+        failureCount++;
+        PPImportPlugin.doNotify("Import of " + name + " failed: " + responseCode + " - " + responseMessage + "\nCheck the server log for more details.", NotificationType.ERROR);
+      } else {
+        successCount++;
+      }
+    } catch (IOException e) {
+      failureCount++;
+      PPImportPlugin.doNotify("Import of " + name + " failed: " + e.getMessage(), NotificationType.ERROR);
+    } finally {
+      Closeables.close(reader, true);
+      Closeables.close(writer, true);
+    }
+  }
 
 	private URL buildURL(Target target, String extraParams) throws MalformedURLException {
 		StringBuilder url = new StringBuilder();
@@ -291,4 +295,16 @@ class PPImporter {
 			return ReplacementsReaderBuilder.with(new InputStreamReader(in, charset), replacements);
 		}
 	}
+
+  private void copyAndFlush(Reader reader, OutputStream writeTo) throws IOException {
+    InputStream stream = new ReaderInputStream(reader, "UTF-8");
+    byte[] bytes = new byte[1024];
+    int len;
+
+    while ((len = stream.read(bytes)) > 0) {
+      writeTo.write(bytes, 0, len);
+    }
+
+    writeTo.flush();
+  }
 }
